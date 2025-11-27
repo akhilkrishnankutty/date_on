@@ -16,12 +16,10 @@ public class UserServices {
     KafkaProducer kafkaProducer;
 
 
-    public Users createNewUser(Users u1) {
+    public Users createNewUser(@org.jetbrains.annotations.NotNull Users u1) {
         u1.setLock(true);
-        KafkaUserInput kui = null;
-        kui.setId(u1.getId());
-        kui.setScore(u1.getCompatibilityScore());
-        kafkaProducer.available(kui);
-        return repo.save(u1);
+        repo.save(u1);
+        kafkaProducer.available(u1);
+        return u1;
     }
 }

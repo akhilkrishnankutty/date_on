@@ -15,8 +15,12 @@ public class KafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void available(KafkaUserInput kui){
+    public void available(Users kui){
         kafkaTemplate.send("Free_user",kui);
+    }
+
+    public void checker(KafkaUserInput ku2){
+        kafkaTemplate.send("compatable",ku2);
     }
 
 
