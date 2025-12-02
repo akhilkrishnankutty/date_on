@@ -6,4 +6,6 @@ import lombok.Data;
 public class KafkaUserInput {
     private int id;
     private double score;
+    private boolean lock;
+    private String gender;
 }

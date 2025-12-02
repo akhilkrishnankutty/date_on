@@ -11,6 +11,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private int loid;
     private String name;
     private String mail;
     private double number;
@@ -20,5 +21,4 @@ public class Users {
     private double compatibilityScore;
     @Column(name = "\"lock\"")
     private boolean lock;
-
 }

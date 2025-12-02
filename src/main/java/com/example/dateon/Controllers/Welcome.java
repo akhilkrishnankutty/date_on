@@ -18,11 +18,11 @@ public class Welcome {
         return "Welcome to Dating";
     }
 
-    @GetMapping("ak")
-    public String checker(){
-        Users u23 = repo.findNearestCompatibleUser("Female",0.85);
-        System.out.println("User Akhil has been matched with" + u23.getName());
-        return (" \uD83D\uDC9E User Akhil has been matched with " + u23.getName());
-    }
+//    @GetMapping("ak")
+//    public String checker(){
+////        Users u23 = repo.findNearestCompatibleUser("Female",0.85);
+////        System.out.println("User Akhil has been matched with" + u23.getName());
+////        return (" \uD83D\uDC9E User Akhil has been matched with " + u23.getName());
+//    }
 
 }
