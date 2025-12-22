@@ -1,41 +1,50 @@
 package com.example.dateon.Service;
 
-import com.example.dateon.Kafka.KafkaConsumer;
 import com.example.dateon.Models.KafkaUserInput;
 import com.example.dateon.Models.Users;
 import com.example.dateon.Repo.UserRepo;
-import org.apache.catalina.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
 
+@Service
 public class Matcher {
 
     @Autowired
-    KafkaConsumer kafkaConsumer;
+    private UserRepo userRepo;
 
-    @Autowired
-    UserRepo userRepo;
+    @Transactional
+    public void processMatch(KafkaUserInput input) {
 
-    @Scheduled(fixedRate = 2000)
-    public void getlocked(){
-        System.out.println(kafkaConsumer.getKui().toString());
-        if (kafkaConsumer.getKui().isLock()){
-            System.out.println("i ran");
-            KafkaUserInput kafkaUserInput = kafkaConsumer.getKui();
-            Users u2 = userRepo.findById(kafkaUserInput.getId()).get();
-            Users u1 = userRepo.findNearestCompatibleUsers(u2.getGender(),u2.getCompatibilityScore()).get(0);
-            u1.setLoid(kafkaUserInput.getId());
-            u2.setLoid(u1.getId());
-            u1.setLock(true);
-            u2.setLock(true);
-            userRepo.save(u1);
-            userRepo.save(u2);
-
-
-
+        if (!input.isLock()) {
+            return;
         }
+
+        Users currentUser = userRepo.findById(input.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Users> matches = userRepo.findNearestCompatibleUsers(
+                currentUser.getGender(),
+                currentUser.getCompatibilityScore()
+        );
+
+        if (matches.isEmpty()) {
+            return;
+        }
+
+        Users matchedUser = matches.get(0);
+        System.out.println("Matched with"+matches.get(0));
+        // Lock both users atomically
+        currentUser.setLoid(matchedUser.getId());
+        matchedUser.setLoid(currentUser.getId());
+
+        currentUser.setLock(true);
+        matchedUser.setLock(true);
+
+        userRepo.save(currentUser);
+        userRepo.save(matchedUser);
+        System.out.println();
     }
 }

@@ -2,40 +2,61 @@ package com.example.dateon.Kafka;
 
 import com.example.dateon.Models.KafkaUserInput;
 import com.example.dateon.Models.Users;
-import lombok.Getter;
+import com.example.dateon.Service.Matcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaConsumer {
+
     @Autowired
-    KafkaProducer kpa;
+    Matcher matcher;
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
-    @Getter
-    KafkaUserInput kui = new KafkaUserInput();
-//    @Scheduled(fixedRate = 200)
-    @KafkaListener(topics = "Free_user",groupId = "user-ai-group")
-    public void firstai(Users u1){
-//        Math.random();
-        System.out.println("ran");
-        System.out.println(u1.toString());
-        KafkaUserInput kui = new KafkaUserInput();
-        kui.setLock(u1.isLock());
-        kui.setId(u1.getId());
-        kui.setScore(u1.getCompatibilityScore());
-        kui.setGender(u1.getGender());
-        kui.setLock(true);
-        kpa.checker(kui);
+    // LISTENER 1: Consume Free_user
+    @KafkaListener(
+            topics = "Free_user",
+            groupId = "free-user-group"
+    )
+    public void firstai(Users user) {
+        try {
+            System.out.println("Consumed from Free_user");
+            System.out.println(user);
 
+            KafkaUserInput input = new KafkaUserInput();
+            input.setId(user.getId());
+            input.setScore(user.getCompatibilityScore());
+            input.setGender(user.getGender());
+            input.setLock(true);
+
+            kafkaProducer.checker(input);
+
+        } catch (Exception e) {
+            System.err.println("Error processing Free_user message");
+            e.printStackTrace();
+        }
     }
-    @KafkaListener(topics = "compatable",groupId = "user-ai-group")
-    public void matcher(KafkaUserInput ku1){
-        kui.setId(ku1.getId());
-        kui.setScore(ku1.getScore());
-        kui.setLock(ku1.isLock());
 
+    // LISTENER 2: Consume compatable
+    @KafkaListener(
+            topics = "compatable",
+            groupId = "compatable-group"
+    )
+    public void matcher(KafkaUserInput input) {
+        try {
+            System.out.println("Consumed from compatable");
+            System.out.println(input);
+            matcher.processMatch(input);
+            // Process independently
+            // Save to DB / cache / response queue etc.
+
+        } catch (Exception e) {
+            System.err.println("Error processing compatable message");
+            e.printStackTrace();
+        }
     }
+
 
 }
