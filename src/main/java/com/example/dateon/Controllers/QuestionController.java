@@ -14,7 +14,7 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity<String> questionSaver(
-            @PathVariable int userId
+            @PathVariable int userId,
             @RequestBody Question q) {
 
         questionService.savequestions(userId, q);
