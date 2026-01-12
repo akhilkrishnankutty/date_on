@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 public class Users {
@@ -21,4 +24,11 @@ public class Users {
     private double compatibilityScore;
     @Column(name = "\"lock\"")
     private boolean lock;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Question> questions = new ArrayList<>();
 }
