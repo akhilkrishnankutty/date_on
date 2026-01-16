@@ -20,15 +20,16 @@ public class Users {
     private double number;
     private String gender;
     private int age;
+    private String workplace;
+    private String bio;
     private String location;
     private double compatibilityScore;
+    private String interests;
     @Column(name = "\"lock\"")
     private boolean lock;
+    private String customQuestion;
+    private String password;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 }
