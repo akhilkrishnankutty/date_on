@@ -42,4 +42,75 @@ public class UserController {
             return org.springframework.http.ResponseEntity.status(401).body("Invalid Credentials");
         }
     }
+
+    @PostMapping("/{userId}/complete")
+    public org.springframework.http.ResponseEntity<?> complete(
+            @org.springframework.web.bind.annotation.PathVariable int userId) {
+        try {
+            return org.springframework.http.ResponseEntity.ok(userServices.completeProfile(userId));
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @org.springframework.web.bind.annotation.GetMapping("/{id}")
+    public org.springframework.http.ResponseEntity<?> getUser(
+            @org.springframework.web.bind.annotation.PathVariable int id,
+            @org.springframework.web.bind.annotation.RequestParam(required = false) Integer requestorId) {
+        Users user = userServices.getUserById(id);
+        if (user == null)
+            return org.springframework.http.ResponseEntity.status(404).body("User not found");
+
+        if (requestorId != null) {
+            Users requestor = userServices.getUserById(requestorId);
+            if (requestor != null && "MATCHED".equals(requestor.getStatus()) && requestor.getLoid() == user.getId()) {
+                // Return full profile but mask sensitive contact info
+                // We do NOT hide name/bio/image URL here. Frontend handles image
+                // blurring/locking based on matchTime.
+                Users safeUser = new Users();
+                // Copy all public fields
+                safeUser.setId(user.getId());
+                safeUser.setName(user.getName());
+                safeUser.setBio(user.getBio());
+                safeUser.setAge(user.getAge());
+                safeUser.setGender(user.getGender());
+                safeUser.setWorkplace(user.getWorkplace());
+                safeUser.setInterests(user.getInterests());
+                safeUser.setLocation(user.getLocation());
+                safeUser.setStatus(user.getStatus());
+                safeUser.setLoid(user.getLoid());
+                safeUser.setMatchTime(user.getMatchTime());
+
+                // HIDE SENSITIVE FIELDS
+                safeUser.setMail(""); // Hide email
+                safeUser.setNumber(0); // Hide phone
+                safeUser.setPassword(""); // Ensure password is empty (should be anyway)
+                safeUser.setLock(user.isLock());
+
+                return org.springframework.http.ResponseEntity.ok(safeUser);
+            }
+        }
+        return org.springframework.http.ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/{userId}/unmatch")
+    public org.springframework.http.ResponseEntity<?> unmatch(
+            @org.springframework.web.bind.annotation.PathVariable int userId) {
+        try {
+            return org.springframework.http.ResponseEntity.ok(userServices.unmatchUser(userId));
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @org.springframework.web.bind.annotation.PutMapping("/{id}/update")
+    public org.springframework.http.ResponseEntity<?> updateUser(
+            @org.springframework.web.bind.annotation.PathVariable int id,
+            @RequestBody Users user) {
+        try {
+            return org.springframework.http.ResponseEntity.ok(userServices.updateUser(id, user));
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }

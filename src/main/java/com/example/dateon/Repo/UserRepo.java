@@ -12,10 +12,12 @@ import java.util.List;
 public interface UserRepo extends JpaRepository<Users, Integer> {
 
         @Query("SELECT u FROM Users u " +
-                        "WHERE u.gender <>  :gender AND u.lock = false " +
+                        "WHERE u.gender <> :gender AND u.lock = false " +
+                        "AND u.id NOT IN :excludedIds " +
                         "ORDER BY ABS(u.compatibilityScore - :targetScore)")
         List<Users> findNearestCompatibleUsers(@Param("gender") String gender,
-                        @Param("targetScore") double targetScore);
+                        @Param("targetScore") double targetScore,
+                        @Param("excludedIds") List<Integer> excludedIds);
 
         Users findByMail(String mail);
 }

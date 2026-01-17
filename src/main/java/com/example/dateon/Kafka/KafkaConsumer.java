@@ -15,19 +15,26 @@ public class KafkaConsumer {
     @Autowired
     private KafkaProducer kafkaProducer;
 
+    @Autowired
+    private com.example.dateon.Repo.UserRepo userRepo;
+
     // LISTENER 1: Consume Free_user
-    @KafkaListener(
-            topics = "Free_user",
-            groupId = "free-user-group"
-    )
+    @KafkaListener(topics = "Free_user", groupId = "free-user-group")
     public void firstai(Users user) {
         try {
             System.out.println("Consumed from Free_user");
-            System.out.println(user);
+
+            // SIMULATE AI: Generate random score
+            double randomScore = Math.random() * 100;
+            user.setCompatibilityScore(randomScore);
+            user.setStatus("MATCH_FINDING");
+            userRepo.save(user); // Persist score and status
+
+            System.out.println("AI Simulation Complete for User ID: " + user.getId() + ", Score: " + randomScore);
 
             KafkaUserInput input = new KafkaUserInput();
             input.setId(user.getId());
-            input.setScore(user.getCompatibilityScore());
+            input.setScore(randomScore);
             input.setGender(user.getGender());
             input.setLock(true);
 
@@ -40,10 +47,7 @@ public class KafkaConsumer {
     }
 
     // LISTENER 2: Consume compatable
-    @KafkaListener(
-            topics = "compatable",
-            groupId = "compatable-group"
-    )
+    @KafkaListener(topics = "compatable", groupId = "compatable-group")
     public void matcher(KafkaUserInput input) {
         try {
             System.out.println("Consumed from compatable");
@@ -57,6 +61,5 @@ public class KafkaConsumer {
             e.printStackTrace();
         }
     }
-
 
 }

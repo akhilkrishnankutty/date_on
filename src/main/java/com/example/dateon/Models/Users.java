@@ -29,6 +29,11 @@ public class Users {
     private boolean lock;
     private String customQuestion;
     private String password;
+    private java.time.LocalDateTime matchTime;
+    private String status; // REGISTERED, AI_PROCESSING, MATCH_FINDING, MATCHED
+
+    @Column(columnDefinition = "TEXT")
+    private String pastMatches; // Comma-separated list of past matched user IDs
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
