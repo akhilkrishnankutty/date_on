@@ -35,6 +35,10 @@ public class Users {
     @Column(columnDefinition = "TEXT")
     private String pastMatches; // Comma-separated list of past matched user IDs
 
+    @Lob
+    private byte[] profilePicture;
+    private String profilePictureContentType;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 }

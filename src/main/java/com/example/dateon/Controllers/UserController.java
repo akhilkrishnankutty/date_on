@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("user")
@@ -111,6 +116,32 @@ public class UserController {
             return org.springframework.http.ResponseEntity.ok(userServices.updateUser(id, user));
         } catch (Exception e) {
             return org.springframework.http.ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/profile-picture")
+    public ResponseEntity<?> uploadProfilePicture(@org.springframework.web.bind.annotation.PathVariable int id,
+            @RequestParam("file") MultipartFile file) {
+        try {
+            return ResponseEntity.ok(userServices.uploadProfilePicture(id, file));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/profile-picture")
+    public ResponseEntity<?> getProfilePicture(@org.springframework.web.bind.annotation.PathVariable int id) {
+        try {
+            byte[] image = userServices.getProfilePicture(id);
+            String contentType = userServices.getProfilePictureContentType(id);
+            if (image == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType != null ? contentType : "image/jpeg"))
+                    .body(image);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).build();
         }
     }
 }

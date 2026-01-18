@@ -7,6 +7,8 @@ import com.example.dateon.Repositories.ChatMessageRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 @Service
 public class UserServices {
@@ -123,5 +125,22 @@ public class UserServices {
         // Don't update email, password, or status here for security/logic reasons
 
         return repo.save(existingUser);
+    }
+
+    public Users uploadProfilePicture(int userId, MultipartFile file) throws IOException {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setProfilePicture(file.getBytes());
+        user.setProfilePictureContentType(file.getContentType());
+        return repo.save(user);
+    }
+
+    public byte[] getProfilePicture(int userId) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getProfilePicture();
+    }
+
+    public String getProfilePictureContentType(int userId) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getProfilePictureContentType();
     }
 }
