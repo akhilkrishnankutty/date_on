@@ -22,3 +22,10 @@ INSERT INTO quiz_question (question_text, options) VALUES ('Favorite season?', '
 INSERT INTO quiz_question (question_text, options) VALUES ('Movie genre?', 'Action,Comedy,Drama,Sci-Fi');
 INSERT INTO quiz_question (question_text, options) VALUES ('Cooking skill level?', 'MasterChef,Decent,Can boil water,Disaster');
 INSERT INTO quiz_question (question_text, options) VALUES ('Introvert or Extrovert?', 'Introvert,Extrovert,Ambivert,Confused');
+INSERT INTO icebreakers (text) VALUES (' Hi! How''s your week going?');
+INSERT INTO icebreakers (text) VALUES (' What''s your favorite travel destination?');
+INSERT INTO icebreakers (text) VALUES (' Start any good shows lately?');
+INSERT INTO icebreakers (text) VALUES (' Tacos or Sushi?');
+INSERT INTO icebreakers (text) VALUES (' Cats or Dogs?');
+INSERT INTO icebreakers (text) VALUES (' All-time favorite movie?');
+INSERT INTO icebreakers (text) VALUES (' Beach or Mountains?');

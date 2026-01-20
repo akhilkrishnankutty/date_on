@@ -15,6 +15,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepo repo;
 
+    @org.springframework.transaction.annotation.Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = repo.findByMail(username);
