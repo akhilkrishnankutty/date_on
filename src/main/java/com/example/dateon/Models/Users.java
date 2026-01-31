@@ -27,6 +27,7 @@ public class Users {
     private String interests;
     @Column(name = "\"lock\"")
     private boolean lock;
+    private boolean isPaused;
     private String customQuestion;
     private String password;
     private java.time.LocalDateTime matchTime;

@@ -146,4 +146,35 @@ public class UserServices {
         Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getProfilePictureContentType();
     }
+
+    public boolean toggleAccountPause(int userId) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        boolean isPaused = !user.isPaused();
+        user.setPaused(isPaused);
+
+        if (isPaused) {
+            // Pausing: Remove from matching pool
+            user.setLock(true); // Ensure they are locked out of matching
+            if ("MATCHED".equals(user.getStatus()) && user.getLoid() != 0) {
+                // Unmatch if currently matched (optional, business logic choice)
+                // For now, let's keep them matched but paused?
+                // Or better: Force unmatch so they don't block the other person.
+                try {
+                    unmatchUser(userId);
+                } catch (Exception e) {
+                    // Ignore if unmatch fails (e.g. race condition)
+                }
+            }
+            user.setStatus("PAUSED");
+        } else {
+            // Unpausing: Re-enter matching pool
+            user.setStatus("MATCH_FINDING");
+            user.setLock(false);
+            kafkaProducer.available(user); // Trigger matching immediately
+        }
+
+        repo.save(user);
+        return isPaused;
+    }
 }

@@ -144,4 +144,16 @@ public class UserController {
             return ResponseEntity.status(404).build();
         }
     }
+
+    @PostMapping("/{userId}/pause")
+    public ResponseEntity<?> togglePause(@org.springframework.web.bind.annotation.PathVariable int userId) {
+        try {
+            boolean isPaused = userServices.toggleAccountPause(userId);
+            java.util.Map<String, Boolean> response = new java.util.HashMap<>();
+            response.put("isPaused", isPaused);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }

@@ -24,22 +24,39 @@ public class ChatController {
     @Autowired
     private ChatMessageRepository chatMessageRepository;
 
+    @Autowired
+    private com.example.dateon.Repo.UserRepo userRepo;
+
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage) {
         chatMessage.setTimestamp(LocalDateTime.now());
         ChatMessage saved = chatMessageRepository.save(chatMessage);
 
-        // Send to recipient
-        messagingTemplate.convertAndSendToUser(
-                String.valueOf(chatMessage.getRecipientId()),
-                "/queue/messages",
-                saved);
+        // Resolve Recipient Email
+        String recipientEmail = userRepo.findById(chatMessage.getRecipientId())
+                .map(com.example.dateon.Models.Users::getMail)
+                .orElse(null);
 
-        // Also send to sender to confirm receipt/sync (optional but good practice)
-        messagingTemplate.convertAndSendToUser(
-                String.valueOf(chatMessage.getSenderId()),
-                "/queue/messages",
-                saved);
+        // Resolve Sender Email
+        String senderEmail = userRepo.findById(chatMessage.getSenderId())
+                .map(com.example.dateon.Models.Users::getMail)
+                .orElse(null);
+
+        if (recipientEmail != null) {
+            // Send to recipient
+            messagingTemplate.convertAndSendToUser(
+                    recipientEmail,
+                    "/queue/messages",
+                    saved);
+        }
+
+        if (senderEmail != null) {
+            // Send back to sender for confirmation
+            messagingTemplate.convertAndSendToUser(
+                    senderEmail,
+                    "/queue/messages",
+                    saved);
+        }
     }
 
     @GetMapping("/messages/{user1Id}/{user2Id}")
