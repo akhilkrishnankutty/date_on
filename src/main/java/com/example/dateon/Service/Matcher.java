@@ -39,6 +39,12 @@ public class Matcher {
             return;
         }
 
+        // If paused, don't process match
+        if (currentUser.isPaused()) {
+            System.out.println("User " + currentUser.getId() + " is paused. Skipping match process.");
+            return;
+        }
+
         // Parse past matches into a list of excluded IDs
         List<Integer> excludedIds = getPastMatchIds(currentUser);
         // Also exclude the current user from matches
