@@ -92,6 +92,10 @@ public class UserController {
                 safeUser.setPassword(""); // Ensure password is empty (should be anyway)
                 safeUser.setLock(user.isLock());
 
+                // SHOW CUSTOM QUESTION & ANSWER
+                safeUser.setCustomQuestion(user.getCustomQuestion());
+                safeUser.setAnswerToMatchQuestion(user.getAnswerToMatchQuestion());
+
                 return org.springframework.http.ResponseEntity.ok(safeUser);
             }
         }
@@ -152,6 +156,21 @@ public class UserController {
             java.util.Map<String, Boolean> response = new java.util.HashMap<>();
             response.put("isPaused", isPaused);
             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{userId}/answer-match-question")
+    public ResponseEntity<?> answerMatchQuestion(
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            @RequestBody java.util.Map<String, String> payload) {
+        try {
+            String answer = payload.get("answer");
+            if (answer == null || answer.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("Answer cannot be empty");
+            }
+            return ResponseEntity.ok(userServices.answerMatchQuestion(userId, answer));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

@@ -29,6 +29,17 @@ public class ChatService {
      */
     @Transactional
     public void processAndSendMessage(ChatMessage chatMessage) {
+        // 0. Validate if chatting is allowed (Both must have answered custom questions)
+        Users sender = userRepo.findById(chatMessage.getSenderId())
+                .orElseThrow(() -> new RuntimeException("Sender not found"));
+        Users recipient = userRepo.findById(chatMessage.getRecipientId())
+                .orElseThrow(() -> new RuntimeException("Recipient not found"));
+
+        if ((sender.getAnswerToMatchQuestion() == null || sender.getAnswerToMatchQuestion().isBlank()) ||
+                (recipient.getAnswerToMatchQuestion() == null || recipient.getAnswerToMatchQuestion().isBlank())) {
+            throw new RuntimeException("Both users must answer the custom question to unlock chat.");
+        }
+
         // 1. Timestamp and Persist
         chatMessage.setTimestamp(LocalDateTime.now());
         ChatMessage saved = chatMessageRepository.save(chatMessage);

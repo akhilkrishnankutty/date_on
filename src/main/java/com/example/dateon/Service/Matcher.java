@@ -43,6 +43,9 @@ public class Matcher {
         if (currentUser.isPaused()) {
             System.out.println("User " + currentUser.getId() + " is paused. Skipping match process.");
             return;
+        } else {
+            System.out.println(
+                    "Processing match for User " + currentUser.getId() + " (Paused: " + currentUser.isPaused() + ")");
         }
 
         // Parse past matches into a list of excluded IDs
@@ -117,11 +120,12 @@ public class Matcher {
             Users refreshedUser = userRepo.findById(user.getId()).orElse(null);
 
             // Only retry if they are still waiting for a match
+            // Only retry if they are still waiting for a match AND not paused
             if (refreshedUser != null &&
                     ("WAITING_FOR_MATCH".equals(refreshedUser.getStatus())
                             || "MATCH_FINDING".equals(refreshedUser.getStatus()))
-                    &&
-                    !"MATCHED".equals(refreshedUser.getStatus())) {
+                    && !"MATCHED".equals(refreshedUser.getStatus())
+                    && !refreshedUser.isPaused()) {
 
                 System.out.println("Re-queuing User ID: " + user.getId() + " for matching retry");
 
@@ -135,6 +139,10 @@ public class Matcher {
                 // Send directly to 'compatable' topic, bypassing 'Free_user' which resets
                 // status
                 kafkaProducer.checker(input);
+            } else {
+                if (refreshedUser != null && refreshedUser.isPaused()) {
+                    System.out.println("User " + user.getId() + " paused. Stopping retry loop.");
+                }
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

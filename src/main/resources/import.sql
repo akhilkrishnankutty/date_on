@@ -12,16 +12,21 @@ INSERT INTO users (name, mail, number, gender, age, workplace, bio, location, co
 --INSERT INTO users (name, mail, number, gender, age, workplace, bio, location, compatibility_score, interests, "lock", password, loid, is_paused) VALUES ('Foxtrot Uniform', 'foxtrot@example.com', 9876543219, 'Female', 27, 'FashionWeek', 'Style icon', 'Mumbai', 0.88, 'Fashion,Shopping,Blogging', false, '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 0, false);
 
 -- Quiz Questions
-INSERT INTO quiz_question (question_text, options) VALUES ('What is your ideal weekend?', 'Hiking,Reading,Partying,Sleeping');
-INSERT INTO quiz_question (question_text, options) VALUES ('Which pet do you prefer?', 'Dog,Cat,Bird,None');
-INSERT INTO quiz_question (question_text, options) VALUES ('Coffee or Tea?', 'Coffee,Tea,Neither,Both');
-INSERT INTO quiz_question (question_text, options) VALUES ('Morning person or Night owl?', 'Morning,Night,Afternoon,Depends');
-INSERT INTO quiz_question (question_text, options) VALUES ('Vacation preference?', 'Beach,Mountains,City,Home');
-INSERT INTO quiz_question (question_text, options) VALUES ('Music genre?', 'Pop,Rock,Jazz,Classical');
-INSERT INTO quiz_question (question_text, options) VALUES ('Favorite season?', 'Summer,Winter,Spring,Autumn');
+INSERT INTO quiz_question (question_text, options) VALUES ('Do you believe in giving second chances?', 'Yes,No,Depends,Only once');
+INSERT INTO quiz_question (question_text, options) VALUES ('Can you be trusted with a secret?', 'Absolutely,Mostly,Depends,Hard for me');
+INSERT INTO quiz_question (question_text, options) VALUES ('Do you discuss personal issues with friends?', 'Yes always,Sometimes,Rarely,Never');
+INSERT INTO quiz_question (question_text, options) VALUES ('What is your favorite time of the day?', 'Morning,Afternoon,Evening,Late Night');
+INSERT INTO quiz_question (question_text, options) VALUES ('How do you usually handle fear?', 'Face it,Avoid it,Analyze it,Seek help');
+INSERT INTO quiz_question (question_text, options) VALUES ('What do you value most in a partner?', 'Trust,Humor,Loyalty,Intelligence');
+INSERT INTO quiz_question (question_text, options) VALUES ('How do you express affection?', 'Words,Gifts,Helping,Touch');
+INSERT INTO quiz_question (question_text, options) VALUES ('Are you more logical or emotional?', 'Logical,Emotional,Both,Depends');
+INSERT INTO quiz_question (question_text, options) VALUES ('How do you handle conflict?', 'Talk it out,Cool off first,Avoid it,Compromise');
+INSERT INTO quiz_question (question_text, options) VALUES ('Introvert or Extrovert?', 'Introvert,Extrovert,Ambivert,Confused');
+INSERT INTO quiz_question (question_text, options) VALUES ('What makes you lose interest?', 'Bad hygiene,Rudeness,Boredom,Clinginess');
+INSERT INTO quiz_question (question_text, options) VALUES ('What are you most passionate about?', 'Career,Hobbies,Family,Causes');
 INSERT INTO quiz_question (question_text, options) VALUES ('Movie genre?', 'Action,Comedy,Drama,Sci-Fi');
 INSERT INTO quiz_question (question_text, options) VALUES ('Cooking skill level?', 'MasterChef,Decent,Can boil water,Disaster');
-INSERT INTO quiz_question (question_text, options) VALUES ('Introvert or Extrovert?', 'Introvert,Extrovert,Ambivert,Confused');
+INSERT INTO quiz_question (question_text, options) VALUES ('Do you believe in soulmates?', 'Yes,No,Maybe,Romantic notion');
 INSERT INTO icebreakers (text) VALUES (' Hi! How''s your week going?');
 INSERT INTO icebreakers (text) VALUES (' What''s your favorite travel destination?');
 INSERT INTO icebreakers (text) VALUES (' Start any good shows lately?');
@@ -29,3 +34,5 @@ INSERT INTO icebreakers (text) VALUES (' Tacos or Sushi?');
 INSERT INTO icebreakers (text) VALUES (' Cats or Dogs?');
 INSERT INTO icebreakers (text) VALUES (' All-time favorite movie?');
 INSERT INTO icebreakers (text) VALUES (' Beach or Mountains?');
+
+

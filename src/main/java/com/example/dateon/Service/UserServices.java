@@ -78,6 +78,10 @@ public class UserServices {
         matchedUser.setMatchTime(null);
         matchedUser.setLock(false);
 
+        // Clear answers
+        currentUser.setAnswerToMatchQuestion(null);
+        matchedUser.setAnswerToMatchQuestion(null);
+
         repo.save(currentUser);
         repo.save(matchedUser);
 
@@ -176,5 +180,16 @@ public class UserServices {
 
         repo.save(user);
         return isPaused;
+    }
+
+    public Users answerMatchQuestion(int userId, String answer) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!"MATCHED".equals(user.getStatus()) || user.getLoid() == 0) {
+            throw new RuntimeException("User is not matched, cannot answer question");
+        }
+
+        user.setAnswerToMatchQuestion(answer);
+        return repo.save(user);
     }
 }

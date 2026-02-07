@@ -29,6 +29,7 @@ public class Users {
     private boolean lock;
     private boolean isPaused;
     private String customQuestion;
+    private String answerToMatchQuestion;
     private String password;
     private java.time.LocalDateTime matchTime;
     private String status; // REGISTERED, AI_PROCESSING, MATCH_FINDING, MATCHED
