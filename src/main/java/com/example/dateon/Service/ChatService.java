@@ -55,9 +55,9 @@ public class ChatService {
         userRepo.findById(userId)
                 .map(Users::getMail)
                 .ifPresent(email -> messagingTemplate.convertAndSendToUser(
-                        email,
+                        java.util.Objects.requireNonNull(email),
                         "/queue/messages",
-                        message));
+                        java.util.Objects.requireNonNull(message)));
     }
 
     public List<ChatMessage> getConversation(int user1Id, int user2Id) {

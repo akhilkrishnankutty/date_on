@@ -4,6 +4,7 @@ import com.example.dateon.Dto.MatchRequestDTO;
 import com.example.dateon.Dto.MatchResponseDTO;
 import com.example.dateon.Dto.QuizAnswersDTO;
 import com.example.dateon.Models.Users;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.List;
 public class AIService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String AI_service_URL = "http://127.0.0.1:8000/predict_compatibility";
+
+    @Value("${dateon.ai.service-url}")
+    private String AI_service_URL;
 
     public double getCompatibilityScore(Users targetUser, List<Users> candidates) {
         if (candidates == null || candidates.isEmpty())
@@ -27,7 +30,8 @@ public class AIService {
                     .toList();
             request.setCandidates(candidateDTOs);
 
-            MatchResponseDTO response = restTemplate.postForObject(AI_service_URL, request, MatchResponseDTO.class);
+            MatchResponseDTO response = restTemplate.postForObject(java.util.Objects.requireNonNull(AI_service_URL),
+                    request, MatchResponseDTO.class);
 
             if (response != null && response.getResults() != null) {
                 // Find max score in the batch results

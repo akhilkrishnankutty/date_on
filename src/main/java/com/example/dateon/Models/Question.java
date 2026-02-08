@@ -3,8 +3,6 @@ package com.example.dateon.Models;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.Map;
 @Entity
 @Data
 public class Question {

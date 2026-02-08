@@ -1,4 +1,4 @@
-package com.example.dateon.model;
+package com.example.dateon.Models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

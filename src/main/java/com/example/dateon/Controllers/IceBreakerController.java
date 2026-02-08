@@ -1,7 +1,7 @@
-package com.example.dateon.controller;
+package com.example.dateon.Controllers;
 
-import com.example.dateon.model.IceBreaker;
-import com.example.dateon.repository.IceBreakerRepository;
+import com.example.dateon.Models.IceBreaker;
+import com.example.dateon.Repositories.IceBreakerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

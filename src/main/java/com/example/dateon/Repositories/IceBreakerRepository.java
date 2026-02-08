@@ -1,6 +1,6 @@
-package com.example.dateon.repository;
+package com.example.dateon.Repositories;
 
-import com.example.dateon.model.IceBreaker;
+import com.example.dateon.Models.IceBreaker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
