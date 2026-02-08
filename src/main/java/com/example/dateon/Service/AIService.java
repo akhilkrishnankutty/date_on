@@ -38,7 +38,7 @@ public class AIService {
                 return response.getResults().stream()
                         .mapToDouble(r -> r.getCompatibility_score())
                         .max()
-                        .orElse(0.0) * 100; // Convert 0-1 to 0-100 percentage
+                        .orElse(0.0); // Keep 0-1 range
             }
         } catch (Exception e) {
             System.err.println("Error calling AI Service: " + e.getMessage());

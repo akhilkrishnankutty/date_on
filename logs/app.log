@@ -2312,3 +2312,1444 @@ Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionExcep
 2026-02-08T14:37:31.758+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : compatable-group: partitions assigned: [compatable-0]
 2026-02-08T14:37:31.759+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : free-user-group: partitions assigned: [Free_user-0]
 2026-02-08T14:38:25.438+05:30  INFO 34752 --- [dateon] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2026-02-08T14:49:26.681+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Revoke previously assigned partitions Free_user-0
+2026-02-08T14:49:26.681+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Revoke previously assigned partitions compatable-0
+2026-02-08T14:49:26.683+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : compatable-group: partitions revoked: [compatable-0]
+2026-02-08T14:49:26.683+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : free-user-group: partitions revoked: [Free_user-0]
+2026-02-08T14:49:26.684+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Member consumer-compatable-group-1-2e44dad0-4c3b-4d54-a012-a6b466df3efb sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-02-08T14:49:26.684+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Member consumer-free-user-group-2-ca07b77d-429a-4ea4-a360-3a717aa3fce1 sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-02-08T14:49:26.684+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-02-08T14:49:26.685+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-02-08T14:49:26.685+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Request joining group due to: consumer pro-actively leaving the group
+2026-02-08T14:49:26.685+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Request joining group due to: consumer pro-actively leaving the group
+2026-02-08T14:49:26.685+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Unsubscribed all topics or patterns and assigned partitions
+2026-02-08T14:49:26.685+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Unsubscribed all topics or patterns and assigned partitions
+2026-02-08T14:49:26.688+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-02-08T14:49:26.688+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-02-08T14:49:26.688+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Request joining group due to: consumer pro-actively leaving the group
+2026-02-08T14:49:26.688+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Request joining group due to: consumer pro-actively leaving the group
+2026-02-08T14:49:27.124+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-02-08T14:49:27.124+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-02-08T14:49:27.124+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-02-08T14:49:27.124+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-02-08T14:49:27.136+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-compatable-group-1 unregistered
+2026-02-08T14:49:27.137+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : compatable-group: Consumer stopped
+2026-02-08T14:49:27.154+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-02-08T14:49:27.155+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-02-08T14:49:27.155+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-02-08T14:49:27.155+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-02-08T14:49:27.164+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-free-user-group-2 unregistered
+2026-02-08T14:49:27.165+05:30  INFO 34752 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : free-user-group: Consumer stopped
+2026-02-08T14:49:27.167+05:30  INFO 34752 --- [dateon] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-08T14:49:27.182+05:30  INFO 34752 --- [dateon] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-08T14:49:27.185+05:30 DEBUG 34752 --- [dateon] [SpringApplicationShutdownHook] org.springframework.web.SimpLogging      : clientOutboundChannel removed SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2026-02-08T14:49:27.186+05:30 DEBUG 34752 --- [dateon] [SpringApplicationShutdownHook] org.springframework.web.SimpLogging      : clientInboundChannel removed WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2026-02-08T14:49:27.186+05:30  INFO 34752 --- [dateon] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2026-02-08T14:49:27.186+05:30  INFO 34752 --- [dateon] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@3d876f9e]]
+2026-02-08T14:49:27.186+05:30 DEBUG 34752 --- [dateon] [SpringApplicationShutdownHook] org.springframework.web.SimpLogging      : clientInboundChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@3d876f9e]
+2026-02-08T14:49:27.186+05:30 DEBUG 34752 --- [dateon] [SpringApplicationShutdownHook] org.springframework.web.SimpLogging      : brokerChannel removed SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@3d876f9e]
+2026-02-08T14:49:27.186+05:30  INFO 34752 --- [dateon] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2026-02-08T14:49:27.186+05:30 DEBUG 34752 --- [dateon] [SpringApplicationShutdownHook] org.springframework.web.SimpLogging      : clientInboundChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-02-08T14:49:27.186+05:30 DEBUG 34752 --- [dateon] [SpringApplicationShutdownHook] org.springframework.web.SimpLogging      : brokerChannel removed UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-02-08T14:49:27.200+05:30  INFO 34752 --- [dateon] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-08T14:49:27.205+05:30  INFO 34752 --- [dateon] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-08T14:49:27.211+05:30  INFO 34752 --- [dateon] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-02-08T14:49:34.224+05:30  INFO 35900 --- [dateon] [main] com.example.dateon.DateonApplication     : Starting DateonApplication using Java 24.0.1 with PID 35900 (C:\Users\akhil\Documents\projects\dateon\target\classes started by akhil in C:\Users\akhil\Documents\projects\dateon)
+2026-02-08T14:49:34.228+05:30 DEBUG 35900 --- [dateon] [main] com.example.dateon.DateonApplication     : Running with Spring Boot v3.5.6, Spring v6.2.11
+2026-02-08T14:49:34.230+05:30  INFO 35900 --- [dateon] [main] com.example.dateon.DateonApplication     : The following 1 profile is active: "local"
+2026-02-08T14:49:36.517+05:30  INFO 35900 --- [dateon] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-08T14:49:36.687+05:30  INFO 35900 --- [dateon] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 147 ms. Found 5 JPA repository interfaces.
+2026-02-08T14:49:38.736+05:30  INFO 35900 --- [dateon] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-08T14:49:38.769+05:30  INFO 35900 --- [dateon] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-08T14:49:38.770+05:30  INFO 35900 --- [dateon] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2026-02-08T14:49:38.906+05:30  INFO 35900 --- [dateon] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-08T14:49:38.907+05:30  INFO 35900 --- [dateon] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4524 ms
+2026-02-08T14:49:39.409+05:30 DEBUG 35900 --- [dateon] [main] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-02-08T14:49:39.412+05:30 DEBUG 35900 --- [dateon] [main] com.example.dateon.Config.JwtFilter      : Filter 'jwtFilter' configured for use
+2026-02-08T14:49:39.726+05:30  INFO 35900 --- [dateon] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-08T14:49:39.886+05:30  INFO 35900 --- [dateon] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2026-02-08T14:49:40.012+05:30  INFO 35900 --- [dateon] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-08T14:49:40.709+05:30  INFO 35900 --- [dateon] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-08T14:49:40.787+05:30  INFO 35900 --- [dateon] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-08T14:49:41.126+05:30  INFO 35900 --- [dateon] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e26987b
+2026-02-08T14:49:41.128+05:30  INFO 35900 --- [dateon] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-08T14:49:41.180+05:30  WARN 35900 --- [dateon] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-08T14:49:41.212+05:30  INFO 35900 --- [dateon] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-08T14:49:43.316+05:30  INFO 35900 --- [dateon] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-08T14:49:43.344+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    set client_min_messages = WARNING
+2026-02-08T14:49:43.348+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    alter table if exists question 
+       drop constraint if exists FK6r5ob15bgq8cdnksycug909p6
+2026-02-08T14:49:43.352+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    drop table if exists chat_message cascade
+2026-02-08T14:49:43.359+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    drop table if exists icebreakers cascade
+2026-02-08T14:49:43.363+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    drop table if exists question cascade
+2026-02-08T14:49:43.368+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    drop table if exists quiz_question cascade
+2026-02-08T14:49:43.375+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    drop table if exists users cascade
+2026-02-08T14:49:43.392+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    create table chat_message (
+        recipient_id integer not null,
+        sender_id integer not null,
+        id bigint generated by default as identity,
+        timestamp timestamp(6),
+        content varchar(255),
+        primary key (id)
+    )
+2026-02-08T14:49:43.463+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    create table icebreakers (
+        id bigint generated by default as identity,
+        text varchar(255),
+        primary key (id)
+    )
+2026-02-08T14:49:43.470+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    create table question (
+        id integer generated by default as identity,
+        usr_id integer not null,
+        answer_text varchar(255),
+        question_text varchar(255),
+        primary key (id)
+    )
+2026-02-08T14:49:43.476+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    create table quiz_question (
+        id integer generated by default as identity,
+        options varchar(255),
+        question_text varchar(255),
+        primary key (id)
+    )
+2026-02-08T14:49:43.497+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    create table users (
+        age integer not null,
+        compatibility_score float(53) not null,
+        id integer generated by default as identity,
+        is_paused boolean not null,
+        "lock" boolean,
+        loid integer not null,
+        number float(53) not null,
+        match_time timestamp(6),
+        answer_to_match_question varchar(255),
+        bio varchar(255),
+        custom_question varchar(255),
+        gender varchar(255),
+        interests varchar(255),
+        location varchar(255),
+        mail varchar(255),
+        name varchar(255),
+        password varchar(255),
+        past_matches TEXT,
+        profile_picture_content_type varchar(255),
+        status varchar(255),
+        workplace varchar(255),
+        profile_picture oid,
+        primary key (id)
+    )
+2026-02-08T14:49:43.514+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    create index idx_chat_sender_recipient 
+       on chat_message (sender_id, recipient_id)
+2026-02-08T14:49:43.517+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    create index idx_chat_recipient_sender 
+       on chat_message (recipient_id, sender_id)
+2026-02-08T14:49:43.521+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : 
+    alter table if exists question 
+       add constraint FK6r5ob15bgq8cdnksycug909p6 
+       foreign key (usr_id) 
+       references users
+2026-02-08T14:49:43.527+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO users (name, mail, number, gender, age, workplace, bio, location, compatibility_score, interests, "lock", password, loid, is_paused, custom_question) VALUES ('Akhil M', 'akhil@example.com', 9876543210, 'Male', 26, 'TechCorp', 'Loves coding and coffee', 'Kochi', 0.85, 'Coding,Reading,Travel', false, '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 0, false, 'What''s your favorite way to spend a weekend?')
+2026-02-08T14:49:43.528+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO users (name, mail, number, gender, age, workplace, bio, location, compatibility_score, interests, "lock", password, loid, is_paused, custom_question) VALUES ('Salini', 'salini@example.com', 9876543211, 'Female', 24, 'DesignStudio', 'Creative soul', 'Kochi', 0.83, 'Art,Music,Design', false, '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 0, false, 'If you could travel anywhere right now, where would you go?')
+2026-02-08T14:49:43.530+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO users (name, mail, number, gender, age, workplace, bio, location, compatibility_score, interests, "lock", password, loid, is_paused, custom_question) VALUES ('John Doe', 'john@example.com', 9876543212, 'Male', 30, 'BizInc', 'Ambitious and driven', 'Bangalore', 0.75, 'Business,Stock Market,Golf', false, '$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG', 0, false, 'What''s the most adventurous thing you have ever done?')
+2026-02-08T14:49:43.530+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Do you believe in giving second chances?', 'Yes,No,Depends,Only once')
+2026-02-08T14:49:43.533+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Can you be trusted with a secret?', 'Absolutely,Mostly,Depends,Hard for me')
+2026-02-08T14:49:43.534+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Do you discuss personal issues with friends?', 'Yes always,Sometimes,Rarely,Never')
+2026-02-08T14:49:43.534+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('What is your favorite time of the day?', 'Morning,Afternoon,Evening,Late Night')
+2026-02-08T14:49:43.536+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('How do you usually handle fear?', 'Face it,Avoid it,Analyze it,Seek help')
+2026-02-08T14:49:43.536+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('What do you value most in a partner?', 'Trust,Humor,Loyalty,Intelligence')
+2026-02-08T14:49:43.537+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('How do you express affection?', 'Words,Gifts,Helping,Touch')
+2026-02-08T14:49:43.538+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Are you more logical or emotional?', 'Logical,Emotional,Both,Depends')
+2026-02-08T14:49:43.539+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('How do you handle conflict?', 'Talk it out,Cool off first,Avoid it,Compromise')
+2026-02-08T14:49:43.540+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Introvert or Extrovert?', 'Introvert,Extrovert,Ambivert,Confused')
+2026-02-08T14:49:43.542+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('What makes you lose interest?', 'Bad hygiene,Rudeness,Boredom,Clinginess')
+2026-02-08T14:49:43.544+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('What are you most passionate about?', 'Career,Hobbies,Family,Causes')
+2026-02-08T14:49:43.545+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Movie genre?', 'Action,Comedy,Drama,Sci-Fi')
+2026-02-08T14:49:43.545+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Cooking skill level?', 'MasterChef,Decent,Can boil water,Disaster')
+2026-02-08T14:49:43.546+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO quiz_question (question_text, options) VALUES ('Do you believe in soulmates?', 'Yes,No,Maybe,Romantic notion')
+2026-02-08T14:49:43.547+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO icebreakers (text) VALUES (' Hi! How''s your week going?')
+2026-02-08T14:49:43.550+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO icebreakers (text) VALUES (' What''s your favorite travel destination?')
+2026-02-08T14:49:43.551+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO icebreakers (text) VALUES (' Start any good shows lately?')
+2026-02-08T14:49:43.552+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO icebreakers (text) VALUES (' Tacos or Sushi?')
+2026-02-08T14:49:43.553+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO icebreakers (text) VALUES (' Cats or Dogs?')
+2026-02-08T14:49:43.554+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO icebreakers (text) VALUES (' All-time favorite movie?')
+2026-02-08T14:49:43.556+05:30 DEBUG 35900 --- [dateon] [main] org.hibernate.SQL                        : INSERT INTO icebreakers (text) VALUES (' Beach or Mountains?')
+2026-02-08T14:49:43.559+05:30  INFO 35900 --- [dateon] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-08T14:49:44.332+05:30  INFO 35900 --- [dateon] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-08T14:49:46.422+05:30  INFO 35900 --- [dateon] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-08T14:49:46.423+05:30  WARN 35900 --- [dateon] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-08T14:49:46.556+05:30  WARN 35900 --- [dateon] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-08T14:49:46.732+05:30 DEBUG 35900 --- [dateon] [main] o.s.w.s.s.s.WebSocketHandlerMapping      : Patterns [/ws/**, /ws] in 'stompWebSocketHandlerMapping'
+2026-02-08T14:49:46.909+05:30 DEBUG 35900 --- [dateon] [main] s.w.s.m.m.a.RequestMappingHandlerMapping : 17 mappings in 'requestMappingHandlerMapping'
+2026-02-08T14:49:47.193+05:30 DEBUG 35900 --- [dateon] [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-08T14:49:47.447+05:30  INFO 35900 --- [dateon] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2026-02-08T14:49:47.864+05:30 DEBUG 35900 --- [dateon] [main] .WebSocketAnnotationMethodMessageHandler : 
+	c.e.d.C.ChatController:
+	{[MESSAGE],[/chat]}: processMessage(ChatMessage)
+2026-02-08T14:49:47.865+05:30 DEBUG 35900 --- [dateon] [main] .WebSocketAnnotationMethodMessageHandler : 
+	c.e.d.C.IceBreakerController:
+	
+2026-02-08T14:49:47.865+05:30 DEBUG 35900 --- [dateon] [main] .WebSocketAnnotationMethodMessageHandler : 
+	c.e.d.C.QuestionController:
+	
+2026-02-08T14:49:47.865+05:30 DEBUG 35900 --- [dateon] [main] .WebSocketAnnotationMethodMessageHandler : 
+	c.e.d.C.QuizController:
+	
+2026-02-08T14:49:47.865+05:30 DEBUG 35900 --- [dateon] [main] .WebSocketAnnotationMethodMessageHandler : 
+	c.e.d.C.UserController:
+	
+2026-02-08T14:49:47.865+05:30 DEBUG 35900 --- [dateon] [main] .WebSocketAnnotationMethodMessageHandler : 
+	c.e.d.C.Welcome:
+	
+2026-02-08T14:49:47.867+05:30 DEBUG 35900 --- [dateon] [main] .WebSocketAnnotationMethodMessageHandler : 
+	o.s.b.a.w.s.e.BasicErrorController:
+	
+2026-02-08T14:49:47.987+05:30 DEBUG 35900 --- [dateon] [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-08T14:49:48.077+05:30 DEBUG 35900 --- [dateon] [main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-08T14:49:48.643+05:30 DEBUG 35900 --- [dateon] [main] org.springframework.web.SimpLogging      : clientOutboundChannel added SubProtocolWebSocketHandler[StompSubProtocolHandler[v10.stomp, v11.stomp, v12.stomp]]
+2026-02-08T14:49:48.644+05:30 DEBUG 35900 --- [dateon] [main] org.springframework.web.SimpLogging      : clientInboundChannel added WebSocketAnnotationMethodMessageHandler[prefixes=[/app/]]
+2026-02-08T14:49:48.644+05:30  INFO 35900 --- [dateon] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-02-08T14:49:48.645+05:30 DEBUG 35900 --- [dateon] [main] org.springframework.web.SimpLogging      : clientInboundChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@3e39823a]
+2026-02-08T14:49:48.645+05:30 DEBUG 35900 --- [dateon] [main] org.springframework.web.SimpLogging      : brokerChannel added SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@3e39823a]
+2026-02-08T14:49:48.646+05:30  INFO 35900 --- [dateon] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@3e39823a]]
+2026-02-08T14:49:48.648+05:30  INFO 35900 --- [dateon] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-02-08T14:49:48.648+05:30 DEBUG 35900 --- [dateon] [main] org.springframework.web.SimpLogging      : clientInboundChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-02-08T14:49:48.648+05:30 DEBUG 35900 --- [dateon] [main] org.springframework.web.SimpLogging      : brokerChannel added UserDestinationMessageHandler[DefaultUserDestinationResolver[prefix=/user/]]
+2026-02-08T14:49:48.673+05:30  INFO 35900 --- [dateon] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-08T14:49:48.752+05:30  INFO 35900 --- [dateon] [main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 1000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-compatable-group-1
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = true
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = compatable-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metadata.recovery.strategy = none
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-02-08T14:49:48.850+05:30  INFO 35900 --- [dateon] [main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-02-08T14:49:49.147+05:30  INFO 35900 --- [dateon] [main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.9.1
+2026-02-08T14:49:49.149+05:30  INFO 35900 --- [dateon] [main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f745dfdcee2b9851
+2026-02-08T14:49:49.149+05:30  INFO 35900 --- [dateon] [main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1770542389145
+2026-02-08T14:49:49.165+05:30  INFO 35900 --- [dateon] [main] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Subscribed to topic(s): compatable
+2026-02-08T14:49:49.208+05:30  INFO 35900 --- [dateon] [main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 1000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-free-user-group-2
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = true
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = free-user-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metadata.recovery.strategy = none
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-02-08T14:49:49.209+05:30  INFO 35900 --- [dateon] [main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-02-08T14:49:49.225+05:30  INFO 35900 --- [dateon] [main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.9.1
+2026-02-08T14:49:49.226+05:30  INFO 35900 --- [dateon] [main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f745dfdcee2b9851
+2026-02-08T14:49:49.226+05:30  INFO 35900 --- [dateon] [main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1770542389225
+2026-02-08T14:49:49.233+05:30  INFO 35900 --- [dateon] [main] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Subscribed to topic(s): Free_user
+2026-02-08T14:49:49.260+05:30  INFO 35900 --- [dateon] [main] com.example.dateon.DateonApplication     : Started DateonApplication in 16.124 seconds (process running for 17.049)
+2026-02-08T14:49:49.975+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Cluster ID: 5L6g3nShT-eMCtK--X86sw
+2026-02-08T14:49:49.975+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Cluster ID: 5L6g3nShT-eMCtK--X86sw
+2026-02-08T14:49:49.976+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-02-08T14:49:49.976+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-02-08T14:49:49.995+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] (Re-)joining group
+2026-02-08T14:49:49.995+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] (Re-)joining group
+2026-02-08T14:49:50.020+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Request joining group due to: need to re-join with the given member-id: consumer-compatable-group-1-d5efcee6-09da-4ee9-9fd3-e89eebe1e86e
+2026-02-08T14:49:50.020+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Request joining group due to: need to re-join with the given member-id: consumer-free-user-group-2-2754f062-12bc-46e6-a441-227546b8303b
+2026-02-08T14:49:50.020+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] (Re-)joining group
+2026-02-08T14:49:50.020+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] (Re-)joining group
+2026-02-08T14:49:53.026+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Successfully joined group with generation Generation{generationId=73, memberId='consumer-compatable-group-1-d5efcee6-09da-4ee9-9fd3-e89eebe1e86e', protocol='range'}
+2026-02-08T14:49:53.026+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Successfully joined group with generation Generation{generationId=73, memberId='consumer-free-user-group-2-2754f062-12bc-46e6-a441-227546b8303b', protocol='range'}
+2026-02-08T14:49:53.035+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Finished assignment for group at generation 73: {consumer-compatable-group-1-d5efcee6-09da-4ee9-9fd3-e89eebe1e86e=Assignment(partitions=[compatable-0])}
+2026-02-08T14:49:53.035+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Finished assignment for group at generation 73: {consumer-free-user-group-2-2754f062-12bc-46e6-a441-227546b8303b=Assignment(partitions=[Free_user-0])}
+2026-02-08T14:49:53.046+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Successfully synced group in generation Generation{generationId=73, memberId='consumer-free-user-group-2-2754f062-12bc-46e6-a441-227546b8303b', protocol='range'}
+2026-02-08T14:49:53.046+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Successfully synced group in generation Generation{generationId=73, memberId='consumer-compatable-group-1-d5efcee6-09da-4ee9-9fd3-e89eebe1e86e', protocol='range'}
+2026-02-08T14:49:53.047+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Notifying assignor about the new Assignment(partitions=[Free_user-0])
+2026-02-08T14:49:53.047+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Notifying assignor about the new Assignment(partitions=[compatable-0])
+2026-02-08T14:49:53.049+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-free-user-group-2, groupId=free-user-group] Adding newly assigned partitions: Free_user-0
+2026-02-08T14:49:53.049+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-compatable-group-1, groupId=compatable-group] Adding newly assigned partitions: compatable-0
+2026-02-08T14:49:53.060+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition compatable-0 to the committed offset FetchPosition{offset=209, offsetEpoch=Optional[14], currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=14}}
+2026-02-08T14:49:53.060+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition Free_user-0 to the committed offset FetchPosition{offset=38, offsetEpoch=Optional[14], currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=14}}
+2026-02-08T14:49:53.083+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : free-user-group: partitions assigned: [Free_user-0]
+2026-02-08T14:49:53.083+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : compatable-group: partitions assigned: [compatable-0]
+2026-02-08T14:50:05.009+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-08T14:50:05.009+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-08T14:50:05.009+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-02-08T14:50:05.010+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-02-08T14:50:05.010+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-02-08T14:50:05.013+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@40ff96ee
+2026-02-08T14:50:05.013+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@2cf1c10e
+2026-02-08T14:50:05.013+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-08T14:50:05.014+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2026-02-08T14:50:05.088+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/user/login", parameters={}
+2026-02-08T14:50:05.091+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#login(Users)
+2026-02-08T14:50:05.282+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [Users(id=0, loid=0, name=null, mail=akhl@example.com, number=0.0, gender=null, age=0, workplace=null (truncated)...]
+2026-02-08T14:50:05.641+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-1] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhl@example.com]
+2026-02-08T14:50:05.745+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:06.136+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Failed to complete request: org.springframework.security.authentication.BadCredentialsException: Bad credentials
+2026-02-08T14:50:06.150+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for POST "/error", parameters={}
+2026-02-08T14:50:06.151+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2026-02-08T14:50:06.165+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:06.167+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Feb 08 14:50:06 IST 2026, status=401, error=Unauthorized, path=/user/login}]
+2026-02-08T14:50:06.202+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 401
+2026-02-08T14:50:15.627+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/user/login", parameters={}
+2026-02-08T14:50:15.627+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#login(Users)
+2026-02-08T14:50:15.628+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [Users(id=0, loid=0, name=null, mail=akhil@example.com, number=0.0, gender=null, age=0, workplace=nul (truncated)...]
+2026-02-08T14:50:15.628+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-3] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhil@example.com]
+2026-02-08T14:50:15.631+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:15.651+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-3] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with result = com.example.dateon.Models.UserPrincipal@2be06dc1
+2026-02-08T14:50:15.738+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-3] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.generateToken() with arguments = [akhil@example.com]
+2026-02-08T14:50:15.854+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-3] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.generateToken() with result = eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS
+2026-02-08T14:50:15.854+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-3] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.getUserByMail() with arguments = [akhil@example.com]
+2026-02-08T14:50:15.857+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:15.863+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:15.860+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-3] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.getUserByMail() with result = Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26, workplace=TechCorp, bio=Loves coding and coffee, location=Kochi, compatibilityScore=0.85, interests=Coding,Reading,Travel, lock=false, isPaused=false, customQuestion=What's your favorite way to spend a weekend?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=null, status=null, pastMatches=null, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:15.876+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:15.877+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{user=Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, ag (truncated)...]
+2026-02-08T14:50:15.915+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-08T14:50:16.049+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.extractUserName() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS]
+2026-02-08T14:50:16.050+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.extractUserName() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS]
+2026-02-08T14:50:16.103+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.extractUserName() with result = akhil@example.com
+2026-02-08T14:50:16.103+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.extractUserName() with result = akhil@example.com
+2026-02-08T14:50:16.104+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhil@example.com]
+2026-02-08T14:50:16.105+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhil@example.com]
+2026-02-08T14:50:16.107+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:16.107+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:16.110+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with result = com.example.dateon.Models.UserPrincipal@1dd5011d
+2026-02-08T14:50:16.112+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.validateToken() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS, com.example.dateon.Models.UserPrincipal@1dd5011d]
+2026-02-08T14:50:16.113+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with result = com.example.dateon.Models.UserPrincipal@1b0e578c
+2026-02-08T14:50:16.115+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.validateToken() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS, com.example.dateon.Models.UserPrincipal@1b0e578c]
+2026-02-08T14:50:16.116+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.validateToken() with result = true
+2026-02-08T14:50:16.118+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.validateToken() with result = true
+2026-02-08T14:50:16.119+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/user/1", parameters={}
+2026-02-08T14:50:16.120+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/user/1", parameters={}
+2026-02-08T14:50:16.120+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#getUser(int, Integer)
+2026-02-08T14:50:16.120+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#getUser(int, Integer)
+2026-02-08T14:50:16.127+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.getUserById() with arguments = [1]
+2026-02-08T14:50:16.127+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.getUserById() with arguments = [1]
+2026-02-08T14:50:16.158+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:16.158+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:16.163+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:16.163+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:16.163+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-6] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.getUserById() with result = Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26, workplace=TechCorp, bio=Loves coding and coffee, location=Kochi, compatibilityScore=0.85, interests=Coding,Reading,Travel, lock=false, isPaused=false, customQuestion=What's your favorite way to spend a weekend?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=null, status=null, pastMatches=null, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:16.163+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.getUserById() with result = Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26, workplace=TechCorp, bio=Loves coding and coffee, location=Kochi, compatibilityScore=0.85, interests=Coding,Reading,Travel, lock=false, isPaused=false, customQuestion=What's your favorite way to spend a weekend?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=null, status=null, pastMatches=null, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:16.172+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:16.172+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26,  (truncated)...]
+2026-02-08T14:50:16.174+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:16.175+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-08T14:50:16.175+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26,  (truncated)...]
+2026-02-08T14:50:16.177+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-08T14:50:16.342+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2026-02-08T14:50:16.344+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2026-02-08T14:50:16.345+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:16.346+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Feb 08 14:50:16 IST 2026, status=401, error=Unauthorized, path=/user/1/profile-pictur (truncated)...]
+2026-02-08T14:50:16.347+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 401
+2026-02-08T14:50:18.974+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.extractUserName() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS]
+2026-02-08T14:50:18.975+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.extractUserName() with result = akhil@example.com
+2026-02-08T14:50:18.976+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhil@example.com]
+2026-02-08T14:50:18.978+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:18.980+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with result = com.example.dateon.Models.UserPrincipal@220ec2f5
+2026-02-08T14:50:18.981+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.validateToken() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS, com.example.dateon.Models.UserPrincipal@220ec2f5]
+2026-02-08T14:50:18.984+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.validateToken() with result = true
+2026-02-08T14:50:18.985+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : POST "/user/1/complete", parameters={}
+2026-02-08T14:50:18.985+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#complete(int)
+2026-02-08T14:50:18.987+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.completeProfile() with arguments = [1]
+2026-02-08T14:50:18.987+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:19.019+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    update
+        users 
+    set
+        age=?,
+        answer_to_match_question=?,
+        bio=?,
+        compatibility_score=?,
+        custom_question=?,
+        gender=?,
+        interests=?,
+        is_paused=?,
+        location=?,
+        "lock"=?,
+        loid=?,
+        mail=?,
+        match_time=?,
+        name=?,
+        number=?,
+        password=?,
+        past_matches=?,
+        profile_picture=?,
+        profile_picture_content_type=?,
+        status=?,
+        workplace=? 
+    where
+        id=?
+2026-02-08T14:50:19.044+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values: 
+	acks = -1
+	auto.include.jmx.reporter = true
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = dateon-producer-1
+	compression.gzip.level = -1
+	compression.lz4.level = 9
+	compression.type = none
+	compression.zstd.level = 3
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	enable.metrics.push = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metadata.recovery.strategy = none
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.adaptive.partitioning.enable = true
+	partitioner.availability.timeout.ms = 0
+	partitioner.class = null
+	partitioner.ignore.keys = false
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.springframework.kafka.support.serializer.JsonSerializer
+
+2026-02-08T14:50:19.045+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-02-08T14:50:19.074+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=dateon-producer-1] Instantiated an idempotent producer.
+2026-02-08T14:50:19.104+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.9.1
+2026-02-08T14:50:19.104+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f745dfdcee2b9851
+2026-02-08T14:50:19.104+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1770542419104
+2026-02-08T14:50:19.119+05:30  INFO 35900 --- [dateon] [kafka-producer-network-thread | dateon-producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=dateon-producer-1] Cluster ID: 5L6g3nShT-eMCtK--X86sw
+2026-02-08T14:50:19.129+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:19.129+05:30  INFO 35900 --- [dateon] [kafka-producer-network-thread | dateon-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=dateon-producer-1] ProducerId set to 12003 with epoch 0
+2026-02-08T14:50:19.149+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-10] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.completeProfile() with result = Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26, workplace=TechCorp, bio=Loves coding and coffee, location=Kochi, compatibilityScore=0.85, interests=Coding,Reading,Travel, lock=false, isPaused=false, customQuestion=What's your favorite way to spend a weekend?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=null, status=AI_PROCESSING, pastMatches=null, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:19.150+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:19.151+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26,  (truncated)...]
+2026-02-08T14:50:19.154+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-08T14:50:19.184+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.extractUserName() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS]
+2026-02-08T14:50:19.185+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.extractUserName() with result = akhil@example.com
+2026-02-08T14:50:19.186+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhil@example.com]
+2026-02-08T14:50:19.188+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:19.191+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with result = com.example.dateon.Models.UserPrincipal@69278504
+2026-02-08T14:50:19.192+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.validateToken() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS, com.example.dateon.Models.UserPrincipal@69278504]
+2026-02-08T14:50:19.195+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.validateToken() with result = true
+2026-02-08T14:50:19.197+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/user/1", parameters={}
+2026-02-08T14:50:19.198+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#getUser(int, Integer)
+2026-02-08T14:50:19.198+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.getUserById() with arguments = [1]
+2026-02-08T14:50:19.200+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:19.204+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:19.203+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-2] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.getUserById() with result = Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26, workplace=TechCorp, bio=Loves coding and coffee, location=Kochi, compatibilityScore=0.85, interests=Coding,Reading,Travel, lock=false, isPaused=false, customQuestion=What's your favorite way to spend a weekend?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=null, status=AI_PROCESSING, pastMatches=null, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:19.206+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:19.206+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Users(id=1, loid=0, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26,  (truncated)...]
+2026-02-08T14:50:19.207+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-08T14:50:19.319+05:30 DEBUG 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0
+2026-02-08T14:50:19.341+05:30 DEBUG 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace,
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        users u1_0 
+    left join
+        question q1_0 
+            on u1_0.id=q1_0.usr_id 
+    where
+        u1_0.id=?
+2026-02-08T14:50:19.347+05:30 DEBUG 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1] org.hibernate.SQL                        : 
+    update
+        users 
+    set
+        age=?,
+        answer_to_match_question=?,
+        bio=?,
+        compatibility_score=?,
+        custom_question=?,
+        gender=?,
+        interests=?,
+        is_paused=?,
+        location=?,
+        "lock"=?,
+        loid=?,
+        mail=?,
+        match_time=?,
+        name=?,
+        number=?,
+        password=?,
+        past_matches=?,
+        profile_picture=?,
+        profile_picture_content_type=?,
+        status=?,
+        workplace=? 
+    where
+        id=?
+2026-02-08T14:50:19.374+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.Matcher.processMatch() with arguments = [KafkaUserInput(id=1, score=0.0, lock=true, gender=Male)]
+2026-02-08T14:50:19.375+05:30 DEBUG 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:19.400+05:30 DEBUG 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.gender<>? 
+        and u1_0."lock"=false 
+        and u1_0.is_paused=false 
+        and u1_0.id not in (?) 
+    order by
+        abs((u1_0.compatibility_score-?))
+2026-02-08T14:50:19.404+05:30  INFO 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.Matcher.processMatch() with result = null
+2026-02-08T14:50:19.405+05:30 DEBUG 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] org.hibernate.SQL                        : 
+    update
+        users 
+    set
+        age=?,
+        answer_to_match_question=?,
+        bio=?,
+        compatibility_score=?,
+        custom_question=?,
+        gender=?,
+        interests=?,
+        is_paused=?,
+        location=?,
+        "lock"=?,
+        loid=?,
+        mail=?,
+        match_time=?,
+        name=?,
+        number=?,
+        password=?,
+        past_matches=?,
+        profile_picture=?,
+        profile_picture_content_type=?,
+        status=?,
+        workplace=? 
+    where
+        id=?
+2026-02-08T14:50:19.409+05:30 DEBUG 35900 --- [dateon] [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] org.hibernate.SQL                        : 
+    update
+        users 
+    set
+        age=?,
+        answer_to_match_question=?,
+        bio=?,
+        compatibility_score=?,
+        custom_question=?,
+        gender=?,
+        interests=?,
+        is_paused=?,
+        location=?,
+        "lock"=?,
+        loid=?,
+        mail=?,
+        match_time=?,
+        name=?,
+        number=?,
+        password=?,
+        past_matches=?,
+        profile_picture=?,
+        profile_picture_content_type=?,
+        status=?,
+        workplace=? 
+    where
+        id=?
+2026-02-08T14:50:23.014+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.extractUserName() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS]
+2026-02-08T14:50:23.017+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.extractUserName() with result = akhil@example.com
+2026-02-08T14:50:23.018+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhil@example.com]
+2026-02-08T14:50:23.021+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:23.024+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with result = com.example.dateon.Models.UserPrincipal@595444c4
+2026-02-08T14:50:23.025+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.validateToken() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS, com.example.dateon.Models.UserPrincipal@595444c4]
+2026-02-08T14:50:23.027+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.validateToken() with result = true
+2026-02-08T14:50:23.028+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/user/1", parameters={}
+2026-02-08T14:50:23.029+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#getUser(int, Integer)
+2026-02-08T14:50:23.029+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.getUserById() with arguments = [1]
+2026-02-08T14:50:23.031+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:23.036+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:23.035+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-4] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.getUserById() with result = Users(id=1, loid=2, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26, workplace=TechCorp, bio=Loves coding and coffee, location=Kochi, compatibilityScore=0.0, interests=Coding,Reading,Travel, lock=true, isPaused=false, customQuestion=What's your favorite way to spend a weekend?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=2026-02-08T14:50:19.403417, status=MATCHED, pastMatches=2, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:23.038+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:23.038+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Users(id=1, loid=2, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26,  (truncated)...]
+2026-02-08T14:50:23.040+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-08T14:50:23.060+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.extractUserName() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS]
+2026-02-08T14:50:23.060+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.extractUserName() with result = akhil@example.com
+2026-02-08T14:50:23.062+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with arguments = [akhil@example.com]
+2026-02-08T14:50:23.065+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.mail=?
+2026-02-08T14:50:23.067+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.MyUserDetailsService.loadUserByUsername() with result = com.example.dateon.Models.UserPrincipal@27aa48e6
+2026-02-08T14:50:23.068+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.JwtService.validateToken() with arguments = [eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJha2hpbEBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDU0MjQxNSwiZXhwIjoxNzcwNTUzMjE1fQ.dm216xRrtQiKDZ__idfj-nDLrBOoPMPoyp58MRWvxGqoJw0DkJQDBR0OXUDu1ASS, com.example.dateon.Models.UserPrincipal@27aa48e6]
+2026-02-08T14:50:23.071+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.JwtService.validateToken() with result = true
+2026-02-08T14:50:23.073+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/user/2?requestorId=1", parameters={masked}
+2026-02-08T14:50:23.074+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.example.dateon.Controllers.UserController#getUser(int, Integer)
+2026-02-08T14:50:23.074+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.getUserById() with arguments = [2]
+2026-02-08T14:50:23.075+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:23.078+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:23.078+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.getUserById() with result = Users(id=2, loid=1, name=Salini, mail=salini@example.com, number=9.876543211E9, gender=Female, age=24, workplace=DesignStudio, bio=Creative soul, location=Kochi, compatibilityScore=0.83, interests=Art,Music,Design, lock=true, isPaused=false, customQuestion=If you could travel anywhere right now, where would you go?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=2026-02-08T14:50:19.403417, status=MATCHED, pastMatches=1, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:23.079+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-CALL] Entering method: com.example.dateon.Service.UserServices.getUserById() with arguments = [1]
+2026-02-08T14:50:23.080+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.answer_to_match_question,
+        u1_0.bio,
+        u1_0.compatibility_score,
+        u1_0.custom_question,
+        u1_0.gender,
+        u1_0.interests,
+        u1_0.is_paused,
+        u1_0.location,
+        u1_0."lock",
+        u1_0.loid,
+        u1_0.mail,
+        u1_0.match_time,
+        u1_0.name,
+        u1_0.number,
+        u1_0.password,
+        u1_0.past_matches,
+        u1_0.profile_picture,
+        u1_0.profile_picture_content_type,
+        u1_0.status,
+        u1_0.workplace 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-08T14:50:23.082+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        q1_0.usr_id,
+        q1_0.id,
+        q1_0.answer_text,
+        q1_0.question_text 
+    from
+        question q1_0 
+    where
+        q1_0.usr_id=?
+2026-02-08T14:50:23.082+05:30  INFO 35900 --- [dateon] [http-nio-8080-exec-5] c.example.dateon.Aspect.LoggingAspect    : [METHOD-RETURN] Exiting method: com.example.dateon.Service.UserServices.getUserById() with result = Users(id=1, loid=2, name=Akhil M, mail=akhil@example.com, number=9.87654321E9, gender=Male, age=26, workplace=TechCorp, bio=Loves coding and coffee, location=Kochi, compatibilityScore=0.0, interests=Coding,Reading,Travel, lock=true, isPaused=false, customQuestion=What's your favorite way to spend a weekend?, answerToMatchQuestion=null, password=$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG, matchTime=2026-02-08T14:50:19.403417, status=MATCHED, pastMatches=2, profilePicture=null, profilePictureContentType=null, questions=[])
+2026-02-08T14:50:23.084+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:23.085+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Users(id=2, loid=1, name=Salini, mail=, number=0.0, gender=Female, age=24, workplace=DesignStudio, b (truncated)...]
+2026-02-08T14:50:23.086+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-08T14:50:23.156+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2026-02-08T14:50:23.157+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2026-02-08T14:50:23.157+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-08T14:50:23.157+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Sun Feb 08 14:50:23 IST 2026, status=401, error=Unauthorized, path=/user/2/profile-pictur (truncated)...]
+2026-02-08T14:50:23.159+05:30 DEBUG 35900 --- [dateon] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 401
+2026-02-08T14:50:48.513+05:30  INFO 35900 --- [dateon] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]

@@ -96,7 +96,15 @@ public class Matcher {
         currentUser.setStatus("MATCHED");
         matchedUser.setStatus("MATCHED");
         currentUser.setMatchTime(java.time.LocalDateTime.now());
+        currentUser.setMatchTime(java.time.LocalDateTime.now());
         matchedUser.setMatchTime(java.time.LocalDateTime.now());
+
+        // Sync compatibility scores (use the valid one if one is 0)
+        double finalScore = Math.max(currentUser.getCompatibilityScore(), matchedUser.getCompatibilityScore());
+        if (finalScore > 0) {
+            currentUser.setCompatibilityScore(finalScore);
+            matchedUser.setCompatibilityScore(finalScore);
+        }
 
         // Record past matches for both users
         addToPastMatches(currentUser, matchedUser.getId());
