@@ -18,6 +18,7 @@ public class Users {
     private String mail;
     private double number;
     private String gender;
+    private String dob;
     private int age;
     private String workplace;
     private String bio;
