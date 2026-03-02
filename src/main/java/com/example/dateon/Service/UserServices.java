@@ -1,7 +1,9 @@
 package com.example.dateon.Service;
 
 import com.example.dateon.Kafka.KafkaProducer;
+import com.example.dateon.Models.UserForgotPass;
 import com.example.dateon.Models.Users;
+import com.example.dateon.Repo.UserForgotPassRepo;
 import com.example.dateon.Repo.UserRepo;
 import com.example.dateon.Repositories.ChatMessageRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +23,8 @@ public class UserServices {
     KafkaProducer kafkaProducer;
     @Autowired
     ChatMessageRepository chatMessageRepository;
+    @Autowired
+    UserForgotPassRepo forgotPassRepo;
 
     public Users createNewUser(@org.jetbrains.annotations.NotNull Users u1) {
         u1.setPassword(encoder.encode(u1.getPassword()));
@@ -191,5 +195,37 @@ public class UserServices {
 
         user.setAnswerToMatchQuestion(answer);
         return repo.save(user);
+    }
+
+    public String processForgotPassword(String email) {
+        Users user = repo.findByMail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found with email: " + email);
+        }
+
+        // Generate temporary password (8 characters)
+        String tempPass = java.util.UUID.randomUUID().toString().substring(0, 8);
+
+        // Save to UserForgotPass table
+        UserForgotPass forgotPass = new UserForgotPass();
+        forgotPass.setMail(email);
+        forgotPass.setTempPassword(tempPass);
+        forgotPass.setCreatedAt(java.time.LocalDateTime.now());
+        forgotPassRepo.save(forgotPass);
+
+        // Update main Users table
+        user.setPassword(encoder.encode(tempPass));
+        repo.save(user);
+
+        return tempPass;
+    }
+
+    public void changePassword(int userId, String oldPassword, String newPassword) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        if (!encoder.matches(oldPassword, user.getPassword())) {
+            throw new RuntimeException("Current password does not match");
+        }
+        user.setPassword(encoder.encode(newPassword));
+        repo.save(user);
     }
 }

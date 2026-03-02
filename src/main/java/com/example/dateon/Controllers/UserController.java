@@ -175,4 +175,33 @@ public class UserController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody java.util.Map<String, String> payload) {
+        try {
+            String email = payload.get("mail");
+            if (email == null || email.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("Email cannot be empty");
+            }
+            userServices.processForgotPassword(email);
+            return ResponseEntity.ok(
+                    java.util.Map.of("message", "Temporary password generated. It will take up to 48hrs to verify."));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{userId}/change-password")
+    public ResponseEntity<?> changePassword(
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            @RequestBody java.util.Map<String, String> payload) {
+        try {
+            String oldPassword = payload.get("oldPassword");
+            String newPassword = payload.get("newPassword");
+            userServices.changePassword(userId, oldPassword, newPassword);
+            return ResponseEntity.ok(java.util.Map.of("message", "Password changed successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
