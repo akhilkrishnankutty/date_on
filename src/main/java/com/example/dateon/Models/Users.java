@@ -1,8 +1,10 @@
 package com.example.dateon.Models;
 
 import jakarta.persistence.*;
-
 import lombok.Data;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +44,8 @@ public class Users {
     private String profilePictureContentType;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Question> questions = new ArrayList<>();
 }
