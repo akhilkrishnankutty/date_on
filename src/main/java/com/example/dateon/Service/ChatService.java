@@ -54,10 +54,13 @@ public class ChatService {
     private void notifyUser(int userId, ChatMessage message) {
         userRepo.findById(userId)
                 .map(Users::getMail)
-                .ifPresent(email -> messagingTemplate.convertAndSendToUser(
-                        java.util.Objects.requireNonNull(email),
-                        "/queue/messages",
-                        java.util.Objects.requireNonNull(message)));
+                .ifPresent(email -> {
+                    System.out.println("Notifying user " + email + " at /queue/messages");
+                    messagingTemplate.convertAndSendToUser(
+                            java.util.Objects.requireNonNull(email),
+                            "/queue/messages",
+                            java.util.Objects.requireNonNull(message));
+                });
     }
 
     public List<ChatMessage> getConversation(int user1Id, int user2Id) {

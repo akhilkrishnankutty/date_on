@@ -42,34 +42,38 @@ public class KafkaConsumer {
                     // u.getLocation().equalsIgnoreCase(user.getLocation()))
                     .toList();
 
-            double maxScore = 0.0;
+            // Re-fetch from DB to check current pause status
+            Users freshUser = userRepo.findById(user.getId()).orElse(user);
+            if (freshUser.isPaused()) {
+                System.out.println("User " + freshUser.getName() + " is paused. Skipping AI processing status update.");
+                return;
+            }
 
+            double maxScore = 0.0;
             try {
                 if (!candidates.isEmpty()) {
-                    System.out.println("Found " + candidates.size() + " candidates for " + user.getName());
+                    System.out.println("Found " + candidates.size() + " candidates for " + freshUser.getName());
                     // Batch Call to AI
-                    maxScore = aiService.getCompatibilityScore(user, candidates);
+                    maxScore = aiService.getCompatibilityScore(freshUser, candidates);
                 } else {
                     System.out.println("No matching candidates found.");
                 }
             } catch (Exception e) {
                 System.err.println("AI Service Failed: " + e.getMessage());
                 e.printStackTrace();
-                // Fallback: maxScore remains 0.0, but process continues so user doesn't get
-                // stuck.
             }
 
-            // ALWAYS update status, even if AI failed
-            user.setCompatibilityScore(maxScore);
-            user.setStatus("MATCH_FINDING");
-            userRepo.save(user);
+            // ALWAYS update status, even if AI failed, but ONLY if not paused
+            freshUser.setCompatibilityScore(maxScore);
+            freshUser.setStatus("MATCH_FINDING");
+            userRepo.save(freshUser);
 
-            System.out.println("AI Processing Complete for User ID: " + user.getId() + ", Max Score: " + maxScore);
+            System.out.println("AI Processing Complete for User ID: " + freshUser.getId() + ", Max Score: " + maxScore);
 
             KafkaUserInput input = new KafkaUserInput();
-            input.setId(user.getId());
+            input.setId(freshUser.getId());
             input.setScore(maxScore);
-            input.setGender(user.getGender());
+            input.setGender(freshUser.getGender());
             input.setLock(true);
 
             kafkaProducer.checker(input);
