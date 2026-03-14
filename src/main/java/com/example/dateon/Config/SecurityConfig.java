@@ -30,7 +30,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/user/create", "/user/login", "/ws/**", "/", "/error").permitAll()
+                        .requestMatchers("/user/create", "/user/login", "/user/forgot-password", "/ws/**", "/",
+                                "/error")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults()) // Keep basic for now if needed, or remove
                 // .formLogin(Customizer.withDefaults())
