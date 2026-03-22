@@ -26,13 +26,15 @@ public class UserServices {
     @Autowired
     UserForgotPassRepo forgotPassRepo;
 
-    public Users createNewUser(@org.jetbrains.annotations.NotNull Users u1) {
+    public Users createNewUser(Users u1) {
+        Users existingUser = repo.findByMail(u1.getMail());
+        if (existingUser != null) {
+            throw new RuntimeException("User with this email already exists");
+        }
         u1.setPassword(encoder.encode(u1.getPassword()));
         u1.setLock(true);
-        u1.setStatus("REGISTERED");
-        repo.save(u1);
-        // kafkaProducer.available(u1); // Removed: Triggered after completion now
-        return u1;
+        u1.setStatus("REGISTERED"); // Set initial status
+        return repo.save(u1);
     }
 
     public Users getUserByMail(String mail) {
@@ -71,11 +73,12 @@ public class UserServices {
         addToPastMatches(currentUser, matchedUserId);
         addToPastMatches(matchedUser, userId);
 
-        // Reset both users' match status
-        currentUser.setStatus("MATCH_FINDING");
+        // Reset initiator user's match status to COOLDOWN
+        currentUser.setStatus("COOLDOWN");
+        currentUser.setMatchCooldownUntil(java.time.LocalDateTime.now().plusDays(5));
         currentUser.setLoid(0);
         currentUser.setMatchTime(null);
-        currentUser.setLock(false);
+        currentUser.setLock(true); // Locked from matching
 
         matchedUser.setStatus("MATCH_FINDING");
         matchedUser.setLoid(0);
@@ -89,11 +92,19 @@ public class UserServices {
         repo.save(currentUser);
         repo.save(matchedUser);
 
-        // Trigger matching for both users
-        kafkaProducer.available(currentUser);
+        // Trigger matching ONLY for target user
         kafkaProducer.available(matchedUser);
 
         return currentUser;
+    }
+
+    public void unlockCooldown(int userId) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setMatchCooldownUntil(null);
+        user.setStatus("MATCH_FINDING");
+        user.setLock(false);
+        repo.save(user);
+        kafkaProducer.available(user);
     }
 
     private void addToPastMatches(Users user, int matchedUserId) {
@@ -194,6 +205,12 @@ public class UserServices {
         }
 
         user.setAnswerToMatchQuestion(answer);
+        return repo.save(user);
+    }
+
+    public Users saveCustomQuestion(int userId, String question) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setCustomQuestion(question);
         return repo.save(user);
     }
 

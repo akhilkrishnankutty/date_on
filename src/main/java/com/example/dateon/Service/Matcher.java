@@ -101,6 +101,10 @@ public class Matcher {
 
         // Sync compatibility scores (use the valid one if one is 0)
         double finalScore = Math.max(currentUser.getCompatibilityScore(), matchedUser.getCompatibilityScore());
+        String aiMatched = (finalScore > 0) ? "Y" : "N";
+        currentUser.setAiMatch(aiMatched);
+        matchedUser.setAiMatch(aiMatched);
+
         if (finalScore > 0) {
             currentUser.setCompatibilityScore(finalScore);
             matchedUser.setCompatibilityScore(finalScore);

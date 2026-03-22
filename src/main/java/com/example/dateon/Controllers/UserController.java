@@ -112,6 +112,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/{userId}/unlock-cooldown")
+    public org.springframework.http.ResponseEntity<?> unlockCooldown(
+            @org.springframework.web.bind.annotation.PathVariable int userId) {
+        try {
+            userServices.unlockCooldown(userId);
+            return org.springframework.http.ResponseEntity.ok(java.util.Map.of("message", "Cooldown unlocked"));
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
     @org.springframework.web.bind.annotation.PutMapping("/{id}/update")
     public org.springframework.http.ResponseEntity<?> updateUser(
             @org.springframework.web.bind.annotation.PathVariable int id,
@@ -171,6 +182,21 @@ public class UserController {
                 return ResponseEntity.badRequest().body("Answer cannot be empty");
             }
             return ResponseEntity.ok(userServices.answerMatchQuestion(userId, answer));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{userId}/custom-question")
+    public ResponseEntity<?> saveCustomQuestion(
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            @RequestBody java.util.Map<String, String> payload) {
+        try {
+            String question = payload.get("question");
+            if (question == null || question.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("Question cannot be empty");
+            }
+            return ResponseEntity.ok(userServices.saveCustomQuestion(userId, question));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

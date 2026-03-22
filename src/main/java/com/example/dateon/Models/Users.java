@@ -39,6 +39,9 @@ public class Users {
     @Column(columnDefinition = "TEXT")
     private String pastMatches; // Comma-separated list of past matched user IDs
 
+    private String aiMatch;
+    private java.time.LocalDateTime matchCooldownUntil;
+
     @Lob
     private byte[] profilePicture;
     private String profilePictureContentType;
