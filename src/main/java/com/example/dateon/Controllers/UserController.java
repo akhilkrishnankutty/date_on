@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping("user")
@@ -226,6 +227,16 @@ public class UserController {
             String newPassword = payload.get("newPassword");
             userServices.changePassword(userId, oldPassword, newPassword);
             return ResponseEntity.ok(java.util.Map.of("message", "Password changed successfully"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{userId}/delete")
+    public ResponseEntity<?> deleteUser(@org.springframework.web.bind.annotation.PathVariable int userId) {
+        try {
+            userServices.deleteUser(userId);
+            return ResponseEntity.ok(java.util.Map.of("message", "User account deleted permanently"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

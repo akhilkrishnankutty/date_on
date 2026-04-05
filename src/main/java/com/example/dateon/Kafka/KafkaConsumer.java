@@ -23,6 +23,16 @@ public class KafkaConsumer {
     @Autowired
     private com.example.dateon.Service.AIService aiService;
 
+    @Autowired
+    private org.springframework.messaging.simp.SimpMessagingTemplate messagingTemplate;
+
+    private void broadcastUserUpdate(int userId) {
+        if (messagingTemplate != null) {
+            messagingTemplate.convertAndSend("/topic/user.status." + userId, "UPDATE");
+        }
+    }
+
+
     @KafkaListener(topics = "Free_user", groupId = "free-user-group")
     public void firstai(Users user) {
         try {
@@ -67,6 +77,7 @@ public class KafkaConsumer {
             freshUser.setCompatibilityScore(maxScore);
             freshUser.setStatus("MATCH_FINDING");
             userRepo.save(freshUser);
+            broadcastUserUpdate(freshUser.getId());
 
             System.out.println("AI Processing Complete for User ID: " + freshUser.getId() + ", Max Score: " + maxScore);
 

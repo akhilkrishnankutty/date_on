@@ -18,4 +18,9 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
     @Transactional
     @Query("DELETE FROM ChatMessage m WHERE (m.senderId = :user1Id AND m.recipientId = :user2Id) OR (m.senderId = :user2Id AND m.recipientId = :user1Id)")
     void deleteConversation(int user1Id, int user2Id);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ChatMessage m WHERE m.senderId = :userId OR m.recipientId = :userId")
+    void deleteAllUserMessages(int userId);
 }

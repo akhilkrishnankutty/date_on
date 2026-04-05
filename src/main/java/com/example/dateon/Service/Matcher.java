@@ -23,6 +23,16 @@ public class Matcher {
     @Autowired
     private KafkaProducer kafkaProducer;
 
+    @Autowired
+    private org.springframework.messaging.simp.SimpMessagingTemplate messagingTemplate;
+
+    private void broadcastUserUpdate(int userId) {
+        if (messagingTemplate != null) {
+            messagingTemplate.convertAndSend("/topic/user.status." + userId, "UPDATE");
+        }
+    }
+
+
     @Transactional
     public void processMatch(KafkaUserInput input) {
 
@@ -64,6 +74,7 @@ public class Matcher {
             // Set status to WAITING_FOR_MATCH so frontend knows
             currentUser.setStatus("WAITING_FOR_MATCH");
             userRepo.save(currentUser);
+            broadcastUserUpdate(currentUser.getId());
 
             // Re-queue for retry after a delay (async)
             scheduleRetry(currentUser);
@@ -79,6 +90,7 @@ public class Matcher {
             // Re-queue for retry
             currentUser.setStatus("WAITING_FOR_MATCH");
             userRepo.save(currentUser);
+            broadcastUserUpdate(currentUser.getId());
             scheduleRetry(currentUser);
             return;
         }
@@ -116,6 +128,8 @@ public class Matcher {
 
         userRepo.save(currentUser);
         userRepo.save(matchedUser);
+        broadcastUserUpdate(currentUser.getId());
+        broadcastUserUpdate(matchedUser.getId());
         System.out.println("Match persisted for Users: " + currentUser.getId() + " & " + matchedUser.getId());
     }
 

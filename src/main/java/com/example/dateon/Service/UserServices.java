@@ -19,6 +19,16 @@ public class UserServices {
     private BCryptPasswordEncoder encoder;
     @Autowired
     UserRepo repo;
+    
+    @Autowired
+    private org.springframework.messaging.simp.SimpMessagingTemplate messagingTemplate;
+
+    private void broadcastUserUpdate(int userId) {
+        if (messagingTemplate != null) {
+            messagingTemplate.convertAndSend("/topic/user.status." + userId, "UPDATE");
+        }
+    }
+
     @Autowired
     KafkaProducer kafkaProducer;
     @Autowired
@@ -51,6 +61,7 @@ public class UserServices {
         user.setLock(false); // Unlock user so they can be found by other users in matching queue
         repo.save(user);
         kafkaProducer.available(user);
+        broadcastUserUpdate(user.getId());
         return user;
     }
 
@@ -92,6 +103,9 @@ public class UserServices {
         repo.save(currentUser);
         repo.save(matchedUser);
 
+        broadcastUserUpdate(currentUser.getId());
+        broadcastUserUpdate(matchedUser.getId());
+
         // Trigger matching ONLY for target user
         kafkaProducer.available(matchedUser);
 
@@ -104,6 +118,7 @@ public class UserServices {
         user.setStatus("MATCH_FINDING");
         user.setLock(false);
         repo.save(user);
+        broadcastUserUpdate(user.getId());
         kafkaProducer.available(user);
     }
 
@@ -194,6 +209,7 @@ public class UserServices {
         }
 
         repo.save(user);
+        broadcastUserUpdate(user.getId());
         return isPaused;
     }
 
@@ -244,5 +260,34 @@ public class UserServices {
         }
         user.setPassword(encoder.encode(newPassword));
         repo.save(user);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public void deleteUser(int userId) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Step 1: Unmatch if currently matched to free up the other user
+        if ("MATCHED".equals(user.getStatus()) && user.getLoid() != 0) {
+            try {
+                unmatchUser(userId);
+            } catch (Exception e) {
+                // Ignore if unmatch fails, we are deleting the user anyway
+            }
+        }
+
+        // Step 2: Delete all messages involving this user
+        chatMessageRepository.deleteAllUserMessages(userId);
+
+        // Step 3: Delete forgot password tokens if any
+        java.util.List<UserForgotPass> pwdRequests = forgotPassRepo.findByMail(user.getMail());
+        if (pwdRequests != null && !pwdRequests.isEmpty()) {
+            forgotPassRepo.deleteAll(pwdRequests);
+        }
+
+        // Step 4: Delete user (questions cascade deleted if mapped, profile picture embedded)
+        repo.delete(user);
+        
+        // Broadcast delete update in case UI is active for someone matched with them
+        broadcastUserUpdate(userId);
     }
 }
