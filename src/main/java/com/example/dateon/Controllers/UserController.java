@@ -78,6 +78,7 @@ public class UserController {
                 safeUser.setId(user.getId());
                 safeUser.setName(user.getName());
                 safeUser.setBio(user.getBio());
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
                 safeUser.setAge(user.getAge());
                 safeUser.setGender(user.getGender());
                 safeUser.setWorkplace(user.getWorkplace());
@@ -142,22 +143,6 @@ public class UserController {
             return ResponseEntity.ok(userServices.uploadProfilePicture(id, file));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/{id}/profile-picture")
-    public ResponseEntity<?> getProfilePicture(@org.springframework.web.bind.annotation.PathVariable int id) {
-        try {
-            byte[] image = userServices.getProfilePicture(id);
-            String contentType = userServices.getProfilePictureContentType(id);
-            if (image == null) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType != null ? contentType : "image/jpeg"))
-                    .body(image);
-        } catch (Exception e) {
-            return ResponseEntity.status(404).build();
         }
     }
 

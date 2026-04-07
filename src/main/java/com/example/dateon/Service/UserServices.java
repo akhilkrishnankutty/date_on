@@ -16,6 +16,9 @@ import java.io.IOException;
 public class UserServices {
 
     @Autowired
+    private CloudinaryService cloudinaryService;
+
+    @Autowired
     private BCryptPasswordEncoder encoder;
     @Autowired
     UserRepo repo;
@@ -164,21 +167,9 @@ public class UserServices {
     @org.springframework.transaction.annotation.Transactional
     public Users uploadProfilePicture(int userId, MultipartFile file) throws IOException {
         Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setProfilePicture(file.getBytes());
-        user.setProfilePictureContentType(file.getContentType());
+        String imageUrl = cloudinaryService.uploadFile(file);
+        user.setProfilePictureUrl(imageUrl);
         return repo.save(user);
-    }
-
-    @org.springframework.transaction.annotation.Transactional
-    public byte[] getProfilePicture(int userId) {
-        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return user.getProfilePicture();
-    }
-
-    @org.springframework.transaction.annotation.Transactional
-    public String getProfilePictureContentType(int userId) {
-        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return user.getProfilePictureContentType();
     }
 
     public boolean toggleAccountPause(int userId) {

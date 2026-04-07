@@ -42,9 +42,8 @@ public class Users {
     private String aiMatch;
     private java.time.LocalDateTime matchCooldownUntil;
 
-    @Lob
-    private byte[] profilePicture;
-    private String profilePictureContentType;
+    @Column(columnDefinition = "TEXT")
+    private String profilePictureUrl;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
