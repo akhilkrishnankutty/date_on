@@ -281,4 +281,10 @@ public class UserServices {
         // Broadcast delete update in case UI is active for someone matched with them
         broadcastUserUpdate(userId);
     }
+
+    public void updateFcmToken(int userId, String token) {
+        Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setFcmToken(token);
+        repo.save(user);
+    }
 }

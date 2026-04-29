@@ -44,8 +44,11 @@ public class ChatService {
         chatMessage.setTimestamp(LocalDateTime.now());
         ChatMessage saved = chatMessageRepository.save(chatMessage);
 
-        // 2. Notify Recipient
+        // 2. Notify Recipient via WebSocket
         notifyUser(saved.getRecipientId(), saved);
+        
+        // 2b. Notify Recipient via FCM Push Notification
+        sendPushNotification(recipient, saved);
 
         // 3. Notify Sender (Confirmation/Echo)
         notifyUser(saved.getSenderId(), saved);
@@ -65,5 +68,25 @@ public class ChatService {
 
     public List<ChatMessage> getConversation(int user1Id, int user2Id) {
         return chatMessageRepository.findConversation(user1Id, user2Id);
+    }
+
+    private void sendPushNotification(Users recipient, ChatMessage chatMessage) {
+        if (recipient.getFcmToken() != null && !recipient.getFcmToken().isEmpty()) {
+            try {
+                com.google.firebase.messaging.Message message = com.google.firebase.messaging.Message.builder()
+                        .setToken(recipient.getFcmToken())
+                        .setNotification(com.google.firebase.messaging.Notification.builder()
+                                .setTitle("New Message ✨")
+                                .setBody("You have a new message from your match!")
+                                .build())
+                        .putData("type", "chat")
+                        .putData("senderId", String.valueOf(chatMessage.getSenderId()))
+                        .build();
+                com.google.firebase.messaging.FirebaseMessaging.getInstance().send(message);
+                System.out.println("FCM Notification sent to recipient: " + recipient.getId());
+            } catch (Exception e) {
+                System.err.println("Failed to send FCM: " + e.getMessage());
+            }
+        }
     }
 }

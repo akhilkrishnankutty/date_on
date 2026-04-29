@@ -42,6 +42,8 @@ public class Users {
     private String aiMatch;
     private java.time.LocalDateTime matchCooldownUntil;
 
+    private String fcmToken;
+
     @Column(columnDefinition = "TEXT")
     private String profilePictureUrl;
 

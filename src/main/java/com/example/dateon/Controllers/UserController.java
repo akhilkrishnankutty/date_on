@@ -226,4 +226,17 @@ public class UserController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+    @PostMapping("/{userId}/fcm-token")
+    public ResponseEntity<?> updateFcmToken(
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            @RequestBody java.util.Map<String, String> payload) {
+        try {
+            String token = payload.get("token");
+            userServices.updateFcmToken(userId, token);
+            return ResponseEntity.ok(java.util.Map.of("message", "FCM Token updated"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
