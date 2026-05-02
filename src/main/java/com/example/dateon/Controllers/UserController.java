@@ -62,46 +62,56 @@ public class UserController {
     @org.springframework.web.bind.annotation.GetMapping("/{id}")
     public org.springframework.http.ResponseEntity<?> getUser(
             @org.springframework.web.bind.annotation.PathVariable int id,
-            @org.springframework.web.bind.annotation.RequestParam(required = false) Integer requestorId) {
+            org.springframework.security.core.Authentication authentication) {
         Users user = userServices.getUserById(id);
         if (user == null)
             return org.springframework.http.ResponseEntity.status(404).body("User not found");
 
-        if (requestorId != null) {
-            Users requestor = userServices.getUserById(requestorId);
-            if (requestor != null && "MATCHED".equals(requestor.getStatus()) && requestor.getLoid() == user.getId()) {
-                // Return full profile but mask sensitive contact info
-                // We do NOT hide name/bio/image URL here. Frontend handles image
-                // blurring/locking based on matchTime.
-                Users safeUser = new Users();
-                // Copy all public fields
-                safeUser.setId(user.getId());
-                safeUser.setName(user.getName());
-                safeUser.setBio(user.getBio());
-                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
-                safeUser.setAge(user.getAge());
-                safeUser.setGender(user.getGender());
-                safeUser.setWorkplace(user.getWorkplace());
-                safeUser.setInterests(user.getInterests());
-                safeUser.setLocation(user.getLocation());
-                safeUser.setStatus(user.getStatus());
-                safeUser.setLoid(user.getLoid());
-                safeUser.setMatchTime(user.getMatchTime());
+        String currentUsername = authentication.getName();
+        Users currentUser = userServices.getUserByMail(currentUsername);
 
-                // HIDE SENSITIVE FIELDS
-                safeUser.setMail(""); // Hide email
-                safeUser.setNumber(0); // Hide phone
-                safeUser.setPassword(""); // Ensure password is empty (should be anyway)
-                safeUser.setLock(user.isLock());
-
-                // SHOW CUSTOM QUESTION & ANSWER
-                safeUser.setCustomQuestion(user.getCustomQuestion());
-                safeUser.setAnswerToMatchQuestion(user.getAnswerToMatchQuestion());
-
-                return org.springframework.http.ResponseEntity.ok(safeUser);
-            }
+        if (currentUser == null) {
+            return org.springframework.http.ResponseEntity.status(401).body("Unauthorized");
         }
-        return org.springframework.http.ResponseEntity.ok(user);
+
+        if (currentUser.getId() == id) {
+            // Requesting own profile, mask password before returning
+            user.setPassword("");
+            return org.springframework.http.ResponseEntity.ok(user);
+        }
+
+        if ("MATCHED".equals(currentUser.getStatus()) && currentUser.getLoid() == user.getId()) {
+            // Return full profile but mask sensitive contact info
+            // We do NOT hide name/bio/image URL here. Frontend handles image
+            // blurring/locking based on matchTime.
+            Users safeUser = new Users();
+            // Copy all public fields
+            safeUser.setId(user.getId());
+            safeUser.setName(user.getName());
+            safeUser.setBio(user.getBio());
+            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            safeUser.setAge(user.getAge());
+            safeUser.setGender(user.getGender());
+            safeUser.setWorkplace(user.getWorkplace());
+            safeUser.setInterests(user.getInterests());
+            safeUser.setLocation(user.getLocation());
+            safeUser.setStatus(user.getStatus());
+            safeUser.setLoid(user.getLoid());
+            safeUser.setMatchTime(user.getMatchTime());
+
+            // HIDE SENSITIVE FIELDS
+            safeUser.setMail(""); // Hide email
+            safeUser.setNumber(0); // Hide phone
+            safeUser.setPassword(""); // Ensure password is empty (should be anyway)
+            safeUser.setLock(user.isLock());
+
+            // SHOW CUSTOM QUESTION & ANSWER
+            safeUser.setCustomQuestion(user.getCustomQuestion());
+            safeUser.setAnswerToMatchQuestion(user.getAnswerToMatchQuestion());
+
+            return org.springframework.http.ResponseEntity.ok(safeUser);
+        }
+        return org.springframework.http.ResponseEntity.status(403).body("Access denied");
     }
 
     @PostMapping("/{userId}/unmatch")
