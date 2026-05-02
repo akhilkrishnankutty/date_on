@@ -1,22 +1,28 @@
-name: Dummy Workflow
+name: Backend CI - Spring Boot
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Run a one-line script
-      run: echo Hello, World!
-    
-    - name: Run a multi-line script
-      run: |
-        echo This is a dummy workflow
-        echo It serves as a template for CI/CD
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Make Maven Wrapper Executable
+      run: chmod +x mvnw
+
+    - name: Run Tests
+      run: ./mvnw clean test
