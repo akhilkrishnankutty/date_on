@@ -23,7 +23,7 @@ jobs:
 
     - name: Start Docker Compose Services
       run: |
-        docker-compose up -d db zookeeper kafka
+        docker compose up -d db zookeeper kafka
 
         # Wait for PostgreSQL to be ready
         echo "Waiting for PostgreSQL..."
