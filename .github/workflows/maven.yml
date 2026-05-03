@@ -21,6 +21,20 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
 
+    - name: Start Docker Compose Services
+      run: |
+        docker-compose up -d db zookeeper kafka
+
+        # Wait for PostgreSQL to be ready
+        echo "Waiting for PostgreSQL..."
+        until docker exec dateon-db pg_isready -U postgres; do
+          sleep 1
+        done
+        echo "PostgreSQL is ready!"
+
+        # Give Kafka a few seconds to fully initialize
+        sleep 10
+
     - name: Make Maven Wrapper Executable
       run: chmod +x mvnw
 
