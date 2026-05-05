@@ -82,14 +82,20 @@ public class UserController {
 
         if ("MATCHED".equals(currentUser.getStatus()) && currentUser.getLoid() == user.getId()) {
             // Return full profile but mask sensitive contact info
-            // We do NOT hide name/bio/image URL here. Frontend handles image
-            // blurring/locking based on matchTime.
+            // 🛡️ SECURITY FIX: Enforce 5-day image blurring rule on the backend to prevent IDOR.
+            // Never trust frontend to hide sensitive fields.
             Users safeUser = new Users();
             // Copy all public fields
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            if (user.getMatchTime() != null && user.getMatchTime().plusDays(5).isAfter(java.time.LocalDateTime.now())) {
+                safeUser.setProfilePictureUrl(""); // Mask image if < 5 days
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
