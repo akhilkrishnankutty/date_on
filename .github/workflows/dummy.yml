@@ -24,5 +24,12 @@ jobs:
     - name: Make Maven Wrapper Executable
       run: chmod +x mvnw
 
+    - name: Start Database and Messaging Services
+      run: docker compose up -d db zookeeper kafka
+
+    - name: Wait for PostgreSQL
+      run: |
+        timeout 60 bash -c 'while ! nc -z localhost 5432; do sleep 1; done'
+
     - name: Run Tests
       run: ./mvnw clean test
