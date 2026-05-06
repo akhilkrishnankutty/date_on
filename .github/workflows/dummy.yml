@@ -21,6 +21,9 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
 
+    - name: Start Docker Services
+      run: docker compose up -d db zookeeper kafka
+
     - name: Make Maven Wrapper Executable
       run: chmod +x mvnw
 
