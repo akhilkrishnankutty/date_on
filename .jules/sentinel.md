@@ -2,3 +2,8 @@
 **Vulnerability:** The `/user/{id}` endpoint allowed unauthenticated arbitrary data exposure and IDOR. It relied on an optional `requestorId` parameter instead of the Spring Security `Authentication` context, meaning any authenticated user could fetch the full profile (including email, password hash, etc.) of any other user simply by calling the endpoint.
 **Learning:** Never trust client-provided parameters (like `requestorId`) for authorization checks. Spring Security's context must be used to identify the current user. Also, endpoints returning user entities should be careful not to serialize sensitive fields unless explicitly required for the current user.
 **Prevention:** Use `org.springframework.security.core.Authentication` injected into controller methods to identify the user making the request. Apply role/ownership checks server-side. Map Entities to DTOs to prevent accidental exposure of fields like `password` or `mail`.
+
+## 2026-05-07 - [CRITICAL] Fix IDOR vulnerabilities in UserController mutation endpoints
+**Vulnerability:** Several mutation endpoints (`updateUser`, `deleteUser`, `changePassword`, `complete`, etc.) in `UserController` accepted a `userId` in the path variable without validating that the authenticated user actually owned that account. Any logged in user could update or delete any other user's account by changing the `userId` parameter in the API request.
+**Learning:** Never trust client-provided parameters (like `userId` in the URL path) for authorization checks on mutation endpoints.
+**Prevention:** Use Spring Security's `Authentication` object injected into controller methods to identify the currently authenticated user, and verify that their ID matches the requested `userId` before performing any action.

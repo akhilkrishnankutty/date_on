@@ -49,9 +49,19 @@ public class UserController {
         }
     }
 
+
+    // Security Fix: Prevent IDOR by verifying the authenticated user matches the requested userId
+    private boolean isAuthorized(int userId, org.springframework.security.core.Authentication auth) {
+        if (auth == null || !auth.isAuthenticated()) return false;
+        Users currentUser = userServices.getUserByMail(auth.getName());
+        return currentUser != null && currentUser.getId() == userId;
+    }
+
     @PostMapping("/{userId}/complete")
     public org.springframework.http.ResponseEntity<?> complete(
-            @org.springframework.web.bind.annotation.PathVariable int userId) {
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return org.springframework.http.ResponseEntity.status(403).body("Access denied");
         try {
             return org.springframework.http.ResponseEntity.ok(userServices.completeProfile(userId));
         } catch (Exception e) {
@@ -116,7 +126,9 @@ public class UserController {
 
     @PostMapping("/{userId}/unmatch")
     public org.springframework.http.ResponseEntity<?> unmatch(
-            @org.springframework.web.bind.annotation.PathVariable int userId) {
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return org.springframework.http.ResponseEntity.status(403).body("Access denied");
         try {
             return org.springframework.http.ResponseEntity.ok(userServices.unmatchUser(userId));
         } catch (Exception e) {
@@ -126,7 +138,9 @@ public class UserController {
 
     @PostMapping("/{userId}/unlock-cooldown")
     public org.springframework.http.ResponseEntity<?> unlockCooldown(
-            @org.springframework.web.bind.annotation.PathVariable int userId) {
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return org.springframework.http.ResponseEntity.status(403).body("Access denied");
         try {
             userServices.unlockCooldown(userId);
             return org.springframework.http.ResponseEntity.ok(java.util.Map.of("message", "Cooldown unlocked"));
@@ -138,7 +152,9 @@ public class UserController {
     @org.springframework.web.bind.annotation.PutMapping("/{id}/update")
     public org.springframework.http.ResponseEntity<?> updateUser(
             @org.springframework.web.bind.annotation.PathVariable int id,
-            @RequestBody Users user) {
+            @RequestBody Users user,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(id, auth)) return org.springframework.http.ResponseEntity.status(403).body("Access denied");
         try {
             return org.springframework.http.ResponseEntity.ok(userServices.updateUser(id, user));
         } catch (Exception e) {
@@ -148,7 +164,9 @@ public class UserController {
 
     @PostMapping("/{id}/profile-picture")
     public ResponseEntity<?> uploadProfilePicture(@org.springframework.web.bind.annotation.PathVariable int id,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(id, auth)) return ResponseEntity.status(403).body("Access denied");
         try {
             return ResponseEntity.ok(userServices.uploadProfilePicture(id, file));
         } catch (Exception e) {
@@ -157,7 +175,9 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/pause")
-    public ResponseEntity<?> togglePause(@org.springframework.web.bind.annotation.PathVariable int userId) {
+    public ResponseEntity<?> togglePause(@org.springframework.web.bind.annotation.PathVariable int userId,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return ResponseEntity.status(403).body("Access denied");
         try {
             boolean isPaused = userServices.toggleAccountPause(userId);
             java.util.Map<String, Boolean> response = new java.util.HashMap<>();
@@ -171,7 +191,9 @@ public class UserController {
     @PostMapping("/{userId}/answer-match-question")
     public ResponseEntity<?> answerMatchQuestion(
             @org.springframework.web.bind.annotation.PathVariable int userId,
-            @RequestBody java.util.Map<String, String> payload) {
+            @RequestBody java.util.Map<String, String> payload,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return ResponseEntity.status(403).body("Access denied");
         try {
             String answer = payload.get("answer");
             if (answer == null || answer.trim().isEmpty()) {
@@ -186,7 +208,9 @@ public class UserController {
     @PostMapping("/{userId}/custom-question")
     public ResponseEntity<?> saveCustomQuestion(
             @org.springframework.web.bind.annotation.PathVariable int userId,
-            @RequestBody java.util.Map<String, String> payload) {
+            @RequestBody java.util.Map<String, String> payload,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return ResponseEntity.status(403).body("Access denied");
         try {
             String question = payload.get("question");
             if (question == null || question.trim().isEmpty()) {
@@ -216,7 +240,9 @@ public class UserController {
     @PostMapping("/{userId}/change-password")
     public ResponseEntity<?> changePassword(
             @org.springframework.web.bind.annotation.PathVariable int userId,
-            @RequestBody java.util.Map<String, String> payload) {
+            @RequestBody java.util.Map<String, String> payload,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return ResponseEntity.status(403).body("Access denied");
         try {
             String oldPassword = payload.get("oldPassword");
             String newPassword = payload.get("newPassword");
@@ -228,7 +254,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}/delete")
-    public ResponseEntity<?> deleteUser(@org.springframework.web.bind.annotation.PathVariable int userId) {
+    public ResponseEntity<?> deleteUser(
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return ResponseEntity.status(403).body("Access denied");
         try {
             userServices.deleteUser(userId);
             return ResponseEntity.ok(java.util.Map.of("message", "User account deleted permanently"));
@@ -240,7 +269,9 @@ public class UserController {
     @PostMapping("/{userId}/fcm-token")
     public ResponseEntity<?> updateFcmToken(
             @org.springframework.web.bind.annotation.PathVariable int userId,
-            @RequestBody java.util.Map<String, String> payload) {
+            @RequestBody java.util.Map<String, String> payload,
+            org.springframework.security.core.Authentication auth) {
+        if (!isAuthorized(userId, auth)) return ResponseEntity.status(403).body("Access denied");
         try {
             String token = payload.get("token");
             userServices.updateFcmToken(userId, token);
