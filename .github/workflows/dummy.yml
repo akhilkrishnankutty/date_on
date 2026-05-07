@@ -24,5 +24,9 @@ jobs:
     - name: Make Maven Wrapper Executable
       run: chmod +x mvnw
 
+
+    - name: Start Database and Kafka
+      run: docker compose up -d db zookeeper kafka
+
     - name: Run Tests
       run: ./mvnw clean test
