@@ -26,7 +26,9 @@ jobs:
 
 
     - name: Start Database and Kafka
-      run: docker compose up -d db zookeeper kafka
+      run: |
+        docker compose up -d db zookeeper kafka
+        sleep 10  # Wait for services to be ready
 
     - name: Run Tests
       run: ./mvnw clean test
