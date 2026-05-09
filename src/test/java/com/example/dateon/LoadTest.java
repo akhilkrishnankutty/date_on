@@ -15,8 +15,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @org.springframework.test.context.TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=update")
+@ActiveProfiles("test")
 public class LoadTest {
 
     @Autowired
@@ -27,6 +33,9 @@ public class LoadTest {
 
     @Autowired
     private com.example.dateon.Service.UserServices userServices;
+
+    @Autowired
+    private com.example.dateon.Service.JwtService jwtService;
 
     @Test
     public void testConcurrentUsersLoad() throws InterruptedException, ExecutionException {
@@ -106,8 +115,24 @@ public class LoadTest {
     @Test
     public void testIceBreakerEndpoint() {
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity("/api/icebreakers/random?limit=3",
+            Users dummyUser = new Users();
+            String mail = "icebreaker_test_" + System.currentTimeMillis() + "@test.com";
+            dummyUser.setMail(mail);
+            dummyUser.setName("Ice Breaker User");
+            dummyUser.setPassword("pass");
+            userServices.createNewUser(dummyUser);
+
+            String token = jwtService.generateToken(mail);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + token);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    "/api/icebreakers/random?limit=3",
+                    HttpMethod.GET,
+                    entity,
                     String.class);
+
             System.out.println("IceBreaker Response Status: " + response.getStatusCode());
             System.out.println("IceBreaker Response Body: " + response.getBody());
             assertThat(response.getStatusCode().is2xxSuccessful())
@@ -140,10 +165,12 @@ public class LoadTest {
         assertThat(createdUserB).isNotNull();
 
         // 3. Add Questions for User A
-        addQuestionsToUser(createdUserA.getId());
+        String tokenA = jwtService.generateToken(mailA);
+        addQuestionsToUser(createdUserA.getId(), tokenA);
 
         // 4. Add Questions for User B
-        addQuestionsToUser(createdUserB.getId());
+        String tokenB = jwtService.generateToken(mailB);
+        addQuestionsToUser(createdUserB.getId(), tokenB);
 
         // Refresh users to get questions
         createdUserA = userServices.getUserById(createdUserA.getId());
@@ -160,7 +187,7 @@ public class LoadTest {
         }
     }
 
-    private void addQuestionsToUser(int userId) {
+    private void addQuestionsToUser(int userId, String token) {
         String[] questions = {
                 "Do you believe in second chances?",
                 "Can you keep a secret?",
@@ -179,14 +206,16 @@ public class LoadTest {
                 "Do you believe in soulmates?"
         };
 
-        // Just using dummy answers "A" for simplicity as the encoder likely handles it
-        // or defaults to 0
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
         for (String qText : questions) {
             com.example.dateon.Models.Question q = new com.example.dateon.Models.Question();
             q.setQuestionText(qText);
             q.setAnswerText("A");
 
-            restTemplate.postForEntity("/users/" + userId + "/questions", q, String.class);
+            HttpEntity<com.example.dateon.Models.Question> entity = new HttpEntity<>(q, headers);
+            restTemplate.exchange("/users/" + userId + "/questions", HttpMethod.POST, entity, String.class);
         }
     }
 }
