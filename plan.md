@@ -1,76 +1,91 @@
 1. **Understand Issue**:
-   The `docker compose up` command is failing locally in the sandbox because of docker overlayfs rootless permissions issues (`failed to convert whiteout file "tmp/.wh.ks-script-bmi7rpc5": operation not permitted`).
-   This confirms that testing with Docker in the sandbox environment is not viable for certain base images.
-
-   However, my task is to fix the GitHub Actions workflow.
-   In GitHub Actions, the `docker compose up` command should work without this issue (because runners run full Docker), BUT using `services:` is the standard and recommended way for GitHub Actions.
-   Why did `services:` fail originally?
+   The workflow failed again in the same exact way. Let's trace it:
    ```
-   pg_isready
+   [ERROR]   DateonApplicationTests.contextLoads » IllegalState Failed to load ApplicationContext ...
+   Caused by: org.postgresql.util.PSQLException: Connection to localhost:5432 refused.
    ```
-   Without `-U postgres`, `pg_isready` uses the runner user and might fail authentication.
-   So changing `options:` for Postgres to:
+   So the test still fails to connect to PostgreSQL.
+   Why is the connection to `localhost:5432` refused?
+   Because `services` mapped the port but maybe the health check STILL fails?
+   Look closely at the `dummy.yml`:
    ```yaml
-        options: >-
-          --health-cmd "pg_isready -U postgres -d Dateon"
-   ```
-   This will correctly wait for the container. Wait, `-d Dateon` ensures the database is created!
-
-   Wait! Look at the GitHub Actions logs from the very first failure (when I used `services:`). I didn't use `services:` in the first commit either!
-   Wait, before my changes, there was no `dummy.yml` or `maven.yml`. There was only `.github/workflows/main.yml`.
-   Wait, if there was NO workflow... wait! Let me check what the original `.github/workflows/dummy.yml` was using. It was just:
-   ```yaml
-    - name: Run Tests
-      run: ./mvnw clean test
-   ```
-   It did not have `services:` or `docker compose`.
-   This is why it failed with `Connection refused` because there was no database!
-
-   In my first commit, I created `.github/workflows/dummy.yml` with `services:`. But it failed.
-   Wait, let's look at the second failure log:
-   ```
-   [ERROR]   DateonApplicationTests.contextLoads » IllegalState Failed to load ApplicationContext for [WebMergedContextConfiguration...
-   Caused by: java.net.ConnectException: Connection refused
-   ```
-   The connection was still refused!
-   Why would connection be refused if `services:` was running?
-   Maybe `localhost:5432` doesn't map to the `db` service container in GitHub Actions if we use `ports: - 5432:5432`?
-   Actually, when you use `services` at the `job` level, they are run on the docker network.
-   BUT, if we specify `ports: - 5432:5432`, GitHub Actions maps the port to the runner's `localhost`. So `localhost:5432` SHOULD work.
-   Why didn't it?
-   If the health check failed, the container is destroyed.
-   Let's check if the `pg_isready` check failed.
-   Yes, `--health-cmd pg_isready` without `-U postgres` will fail and the container gets killed by docker!
-   So, we MUST use:
-   `--health-cmd "pg_isready -U postgres"` or simply `pg_isready -U postgres`.
-
-   Let's look at `.github/workflows/dummy.yml` that I just made:
-   It uses `docker compose up -d`. This is fine, except in GHA `docker-compose.yml` has:
-   `SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/Dateon` for the `app` container, but we are running `mvnw test` on the RUNNER, which connects to `localhost:5432`.
-   And `docker-compose.yml` has:
-   ```yaml
-    ports:
-      - "5432:5432"
-   ```
-   So `localhost:5432` will work!
-
-   Wait! Look at the second GHA failure logs closely:
-   ```
-   2026-05-09T07:10:58.2708404Z Stop and remove container: 3318d1452f004a669d543dfbdb0ae239_confluentinccpkafka740_f592f1
-   2026-05-09T07:10:58.2708748Z ##[command]/usr/bin/docker rm --force 4d30e54cbae6231af97d607a8c51cd06d83fec87aa810ee39eda7a0efd83ad0d
-   ```
-   This `Stop and remove container` log at the end of the job shows that `confluentinccpkafka740` container was running and was removed during cleanup!
-   This means the `services:` DID run, but Postgres was NOT running! Or maybe Postgres was not listening on `localhost:5432`.
-   Why wasn't Postgres running? Probably because the health check failed!
-
-   To fix it, we should revert to using `services:` but fix the health check:
-   ```yaml
+      db:
+        image: postgres:15
+        env:
+          POSTGRES_DB: Dateon
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 4567
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd "pg_isready -U postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
    ```
+   Wait, if `--health-cmd` uses `"pg_isready -U postgres"`, maybe the options parsing in GitHub Actions adds extra quotes and causes the command to fail? Or does it need to be an array?
+   Actually, `pg_isready` uses `POSTGRES_USER` environment variable automatically!
+   So `--health-cmd pg_isready` should have worked if `POSTGRES_USER` is exported, but wait, `env` defined in `services.db.env` is available to the container. So `pg_isready` will know the user is `postgres`.
+   Wait... I previously had:
+   ```yaml
+        options: >-
+          --health-cmd pg_isready
+   ```
+   and it failed. Then I added `-U postgres`. Did that fix the health check?
+   If the health check passes, why does `localhost:5432` refuse connection?
+   Is the container removed before the tests start?
+   No, it says "Stop and remove container: [kafka]" but it DOESN'T say "Stop and remove container: [postgres]"!
+   Wait, where are the logs for the DB container? If the health check fails, the job fails to start completely, before the steps. But the `steps` DID run!
+   So the health check DID PASS!
+
+   Then why did `localhost:5432` refuse connection during `./mvnw clean test`?
+   Let's check `docker ps` or something. Wait, in `dummy.yml`:
+   ```yaml
+    - name: Wait for services
+      run: |
+        sleep 15
+        timeout 60 bash -c 'until echo > /dev/tcp/localhost/9092; do sleep 1; done'
+        timeout 60 bash -c 'until echo > /dev/tcp/localhost/5432; do sleep 1; done'
+   ```
+   Wait, `echo > /dev/tcp/localhost/5432` SUCCEEDED! If it didn't, the step would fail and `mvnw test` would not be executed!
+   The step `Wait for services` succeeded because `mvnw clean test` started executing.
+   So `localhost:5432` WAS LISTENING before tests ran!
+   Then why did `DateonApplicationTests.contextLoads` fail with `Connection refused` to `localhost:5432`?
+   Ah! Is it possible that the test uses a different port?
+   `application.properties`:
+   `spring.datasource.url =jdbc:postgresql://localhost:5432/Dateon`
+   Wait... in GitHub Actions, when `services:` are used, they are accessed via `localhost:5432`.
+   BUT if the tests use Testcontainers, or if they spin up their own things? Let's check `DateonApplicationTests.java`.
+   No, it's just a normal Spring Boot test.
+
+   Wait, why would `Connection refused` happen if it was just listening?
+   Could Postgres have crashed?
+   "FATAL: role 'postgres' does not exist"? No, we created it.
+   Maybe `POSTGRES_PASSWORD` needs to be passed to the connection? `application.properties` has `spring.datasource.password=4567`.
+   Wait!
+   ```
+   Caused by: org.postgresql.util.PSQLException: Connection to localhost:5432 refused.
+   Caused by: java.net.ConnectException: Connection refused
+   ```
+   This strictly means nothing is listening on `localhost:5432`.
+   How can it not be listening if `Wait for services` succeeded?
+   Wait! In GHA, if you use `ports: - 5432:5432`, the port is mapped on the host. But maybe `localhost` resolves to IPv6 `::1` in the Java process, and Docker is only listening on IPv4 `127.0.0.1`?
+   Yes! Java 17 prefers IPv6, and `localhost` might resolve to `::1`, but Docker's port mapping might only be bound to `0.0.0.0` (IPv4) or `127.0.0.1`. If Java tries `::1:5432`, it gets `Connection refused`!
+
+   Let's check `application.properties`:
+   `spring.datasource.url =jdbc:postgresql://localhost:5432/Dateon`
+   If I change this to `127.0.0.1:5432`, it will force IPv4.
+   Is there a way to do this without changing `application.properties`?
+   I can pass it as an environment variable in the workflow!
+   Spring Boot will automatically override `spring.datasource.url` if we provide `SPRING_DATASOURCE_URL` environment variable.
+
+   ```yaml
+    - name: Run Tests
+      env:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/Dateon
+        SPRING_KAFKA_BOOTSTRAP_SERVERS: 127.0.0.1:9092
+      run: ./mvnw clean test
+   ```
 
 2. **Implement Fix**:
-   Let's modify the dummy.yml (or main.yml) to use the correct health check.
+   Add environment variables to the `Run Tests` step to use `127.0.0.1` instead of `localhost`.
