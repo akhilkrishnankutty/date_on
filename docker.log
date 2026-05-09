@@ -1,0 +1,38 @@
+ Image confluentinc/cp-zookeeper:7.4.0 Pulling
+ Image postgres:15 Pulling
+ Image confluentinc/cp-kafka:7.4.0 Pulling
+ f54714f83ac5 Pulling fs layer 0B
+ 015862cc789d Pulling fs layer 0B
+ 3cded401634e Pulling fs layer 0B
+ 8c144520e9de Pulling fs layer 0B
+ bcafa67fbd8f Pulling fs layer 0B
+ c180ee728a3e Pulling fs layer 0B
+ 241ffc663b43 Pulling fs layer 0B
+ e1e6a53f9063 Pulling fs layer 0B
+ 1fe5b5b014c2 Pulling fs layer 0B
+ 6bb510d48a09 Pulling fs layer 0B
+ 1a34b586917b Pulling fs layer 0B
+ 57fb71246055 Pulling fs layer 0B
+ c52cb585fd05 Pulling fs layer 0B
+ 2c71b11837a2 Pulling fs layer 0B
+ c46019618f04 Pulling fs layer 0B
+ d9019a56de83 Pulling fs layer 0B
+ 6e38a999e99d Pulling fs layer 0B
+ 98dcac9c50c9 Pulling fs layer 0B
+ 631436d0d0b7 Pulling fs layer 0B
+ 3787ca63f376 Pulling fs layer 0B
+ 511821493b58 Pulling fs layer 0B
+ b308ae762fae Pulling fs layer 0B
+ 31e4e3208450 Pulling fs layer 0B
+ 0337286b2934 Pulling fs layer 0B
+ 241ffc663b43 Pulling fs layer 0B
+ 015862cc789d Pulling fs layer 0B
+ 3cded401634e Pulling fs layer 0B
+ c180ee728a3e Pulling fs layer 0B
+ bcafa67fbd8f Pulling fs layer 0B
+ e1e6a53f9063 Pulling fs layer 0B
+ 9647c0efa368 Pulling fs layer 0B
+ 1fe5b5b014c2 Pulling fs layer 0B
+ 67f8a9f91039 Pulling fs layer 0B
+ 8c144520e9de Pulling fs layer 0B
+failed to extract layer (application/vnd.docker.image.rootfs.diff.tar.gzip sha256:3cded401634eb9ac71d2150ae0891f02cee234062035a7419006290605b81a41) to overlayfs as "extract-7153731-mm2M sha256:44ce97ee50d8e5acbceee40173675b623196e3842290ae2788bbc23e647a8cbe": failed to convert whiteout file "tmp/.wh.ks-script-bmi7rpc5": operation not permitted
