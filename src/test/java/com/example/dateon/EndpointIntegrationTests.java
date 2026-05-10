@@ -40,6 +40,9 @@ public class EndpointIntegrationTests {
     @MockBean
     private com.example.dateon.Service.CloudinaryService cloudinaryService;
 
+    @MockBean
+    private com.example.dateon.Kafka.KafkaProducer kafkaProducer;
+
     private Users createUser(String namePrefix) {
         Users dummyUser = new Users();
         String mail = namePrefix.toLowerCase() + "_" + System.currentTimeMillis() + "@test.com";

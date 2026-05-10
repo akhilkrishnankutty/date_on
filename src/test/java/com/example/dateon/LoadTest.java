@@ -37,6 +37,9 @@ public class LoadTest {
     @Autowired
     private com.example.dateon.Service.JwtService jwtService;
 
+    @org.springframework.boot.test.mock.mockito.MockBean
+    private com.example.dateon.Kafka.KafkaProducer kafkaProducer;
+
     @Test
     public void testConcurrentUsersLoad() throws InterruptedException, ExecutionException {
         int numberOfThreads = 50;
