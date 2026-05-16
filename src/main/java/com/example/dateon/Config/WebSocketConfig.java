@@ -6,10 +6,20 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.lang.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Autowired
+    private AuthChannelInterceptor authChannelInterceptor;
+
+    @Override
+    public void configureClientInboundChannel(@NonNull ChannelRegistration registration) {
+        registration.interceptors(authChannelInterceptor);
+    }
 
     @Override
     public void configureMessageBroker(@NonNull MessageBrokerRegistry config) {
