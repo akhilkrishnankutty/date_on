@@ -167,9 +167,18 @@ public class UserServices {
     @org.springframework.transaction.annotation.Transactional
     public Users uploadProfilePicture(int userId, MultipartFile file) throws IOException {
         Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        String oldPicUrl = user.getProfilePictureUrl();
+        
         String imageUrl = cloudinaryService.uploadFile(file);
         user.setProfilePictureUrl(imageUrl);
-        return repo.save(user);
+        Users savedUser = repo.save(user);
+        
+        // Remove previous image from Cloudinary if it exists
+        if (oldPicUrl != null && !oldPicUrl.isEmpty()) {
+            cloudinaryService.deleteFileFromUrl(oldPicUrl);
+        }
+        
+        return savedUser;
     }
 
     public boolean toggleAccountPause(int userId) {
@@ -212,7 +221,15 @@ public class UserServices {
         }
 
         user.setAnswerToMatchQuestion(answer);
-        return repo.save(user);
+        Users savedUser = repo.save(user);
+        
+        // Notify both users via WebSocket so their screens update immediately
+        broadcastUserUpdate(user.getId());
+        if (user.getLoid() != 0) {
+            broadcastUserUpdate(user.getLoid());
+        }
+        
+        return savedUser;
     }
 
     public Users saveCustomQuestion(int userId, String question) {
@@ -276,7 +293,13 @@ public class UserServices {
         }
 
         // Step 4: Delete user (questions cascade deleted if mapped, profile picture embedded)
+        String oldPicUrl = user.getProfilePictureUrl();
         repo.delete(user);
+        
+        // Delete the profile picture from Cloudinary
+        if (oldPicUrl != null && !oldPicUrl.isEmpty()) {
+            cloudinaryService.deleteFileFromUrl(oldPicUrl);
+        }
         
         // Broadcast delete update in case UI is active for someone matched with them
         broadcastUserUpdate(userId);

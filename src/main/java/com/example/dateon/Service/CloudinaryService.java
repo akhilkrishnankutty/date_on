@@ -23,4 +23,18 @@ public class CloudinaryService {
             throw new IOException("Failed to upload file to Cloudinary", e);
         }
     }
+
+    public void deleteFileFromUrl(String url) {
+        if (url == null || url.isEmpty() || !url.contains("cloudinary")) return;
+        try {
+            int lastSlash = url.lastIndexOf('/');
+            int lastDot = url.lastIndexOf('.');
+            if (lastSlash != -1 && lastDot != -1 && lastDot > lastSlash) {
+                String publicId = url.substring(lastSlash + 1, lastDot);
+                cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to delete file from Cloudinary: " + e.getMessage());
+        }
+    }
 }
