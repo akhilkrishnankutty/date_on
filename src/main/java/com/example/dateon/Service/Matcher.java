@@ -6,7 +6,6 @@ import com.example.dateon.Models.Users;
 import com.example.dateon.Repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -76,8 +75,7 @@ public class Matcher {
             userRepo.save(currentUser);
             broadcastUserUpdate(currentUser.getId());
 
-            // Re-queue for retry after a delay (async)
-            scheduleRetry(currentUser);
+            // Wait for the next cron job cycle to retry
             return;
         }
 
@@ -90,8 +88,7 @@ public class Matcher {
             // Re-queue for retry
             currentUser.setStatus("WAITING_FOR_MATCH");
             userRepo.save(currentUser);
-            broadcastUserUpdate(currentUser.getId());
-            scheduleRetry(currentUser);
+            // Wait for the next cron job cycle to retry
             return;
         }
 
@@ -134,47 +131,27 @@ public class Matcher {
     }
 
     /**
-     * Schedule a retry by putting user back in Kafka queue after a delay
+     * Cron job to process all users waiting for a match every 30 seconds
      */
-    @Async
-    public void scheduleRetry(Users user) {
-        try {
-            // Wait 30 seconds before retrying
-            Thread.sleep(30000);
-
-            // Re-fetch user to check if they were matched in the meantime
-            Users refreshedUser = userRepo.findById(user.getId()).orElse(null);
-
-            // Only retry if they are still waiting for a match
-            // Only retry if they are still waiting for a match AND not paused
-            if (refreshedUser != null &&
-                    ("WAITING_FOR_MATCH".equals(refreshedUser.getStatus())
-                            || "MATCH_FINDING".equals(refreshedUser.getStatus()))
-                    && !"MATCHED".equals(refreshedUser.getStatus())
-                    && !refreshedUser.isPaused()) {
-
-                System.out.println("Re-queuing User ID: " + user.getId() + " for matching retry");
-
-                // Construct KafkaUserInput to send directly to matcher queue
-                KafkaUserInput input = new KafkaUserInput();
-                input.setId(refreshedUser.getId());
-                input.setScore(refreshedUser.getCompatibilityScore());
-                input.setGender(refreshedUser.getGender());
-                input.setLock(true); // Ensure lock is set to true for processing
-
-                // Send directly to 'compatable' topic, bypassing 'Free_user' which resets
-                // status
-                kafkaProducer.checker(input);
-            } else {
-                if (refreshedUser != null && refreshedUser.isPaused()) {
-                    System.out.println("User " + user.getId() + " paused. Stopping retry loop.");
-                }
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            System.err.println("Retry scheduling interrupted for User ID: " + user.getId());
+    @org.springframework.scheduling.annotation.Scheduled(fixedRate = 30000)
+    public void processWaitingUsers() {
+        List<Users> waitingUsers = userRepo.findByStatusAndIsPausedFalse("WAITING_FOR_MATCH");
+        if (waitingUsers.isEmpty()) {
+            return;
+        }
+        System.out.println("Cron Job: Re-queuing " + waitingUsers.size() + " users for matching retry");
+        for (Users refreshedUser : waitingUsers) {
+            KafkaUserInput input = new KafkaUserInput();
+            input.setId(refreshedUser.getId());
+            input.setScore(refreshedUser.getCompatibilityScore());
+            input.setGender(refreshedUser.getGender());
+            input.setLock(true); // Ensure lock is set to true for processing
+            
+            // Send directly to 'compatable' topic, bypassing 'Free_user' which resets status
+            kafkaProducer.checker(input);
         }
     }
+
 
     /**
      * Parse pastMatches string into a list of user IDs

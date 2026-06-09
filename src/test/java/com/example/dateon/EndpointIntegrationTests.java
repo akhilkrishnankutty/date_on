@@ -279,4 +279,38 @@ public class EndpointIntegrationTests {
         ResponseEntity<java.util.List> response = restTemplate.exchange("/quiz/questions", HttpMethod.GET, entity, java.util.List.class);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
     }
+
+    @Test
+    public void testSaveQuestionsDeduplicationAndUpdating() {
+        Users user = createUser("QuizUpdateUser");
+        HttpHeaders headers = getAuthHeaders(user.getMail());
+
+        // 1. Save question with answer "Option A"
+        Map<String, String> qPayload = new HashMap<>();
+        qPayload.put("questionText", "Do you believe in second chances?");
+        qPayload.put("answerText", "Option A");
+
+        HttpEntity<Map<String, String>> entity1 = new HttpEntity<>(qPayload, headers);
+        ResponseEntity<String> response1 = restTemplate.postForEntity("/users/" + user.getId() + "/questions", entity1, String.class);
+        assertThat(response1.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response1.getBody()).isEqualTo("Saved");
+
+        // 2. Save the same question again with answer "Option B"
+        qPayload.put("answerText", "Option B");
+        HttpEntity<Map<String, String>> entity2 = new HttpEntity<>(qPayload, headers);
+        ResponseEntity<String> response2 = restTemplate.postForEntity("/users/" + user.getId() + "/questions", entity2, String.class);
+        assertThat(response2.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response2.getBody()).isEqualTo("Saved");
+
+        // 3. Fetch user profile and verify there is exactly 1 question, and its answer is "Option B"
+        HttpEntity<Void> getEntity = new HttpEntity<>(headers);
+        ResponseEntity<Users> getResponse = restTemplate.exchange("/user/" + user.getId(), HttpMethod.GET, getEntity, Users.class);
+        assertThat(getResponse.getStatusCode().is2xxSuccessful()).isTrue();
+
+        Users fetchedUser = getResponse.getBody();
+        assertThat(fetchedUser).isNotNull();
+        assertThat(fetchedUser.getQuestions()).hasSize(1);
+        assertThat(fetchedUser.getQuestions().get(0).getQuestionText()).isEqualTo("Do you believe in second chances?");
+        assertThat(fetchedUser.getQuestions().get(0).getAnswerText()).isEqualTo("Option B");
+    }
 }

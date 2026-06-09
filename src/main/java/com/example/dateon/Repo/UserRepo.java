@@ -20,4 +20,8 @@ public interface UserRepo extends JpaRepository<Users, Integer> {
                         @Param("excludedIds") List<Integer> excludedIds);
 
         Users findByMail(String mail);
+
+        Users findByNumber(double number);
+
+        List<Users> findByStatusAndIsPausedFalse(String status);
 }

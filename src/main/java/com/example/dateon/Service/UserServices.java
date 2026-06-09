@@ -50,6 +50,24 @@ public class UserServices {
         return repo.save(u1);
     }
 
+    /**
+     * Check if a user already exists with the given email or phone number.
+     * Returns a descriptive error message, or null if both are available.
+     */
+    public String checkUserExists(String email, double phone) {
+        if (email != null && !email.isBlank()) {
+            if (repo.findByMail(email.trim()) != null) {
+                return "An account with this email already exists.";
+            }
+        }
+        if (phone > 0) {
+            if (repo.findByNumber(phone) != null) {
+                return "An account with this phone number already exists.";
+            }
+        }
+        return null; // All clear
+    }
+
     public Users getUserByMail(String mail) {
         return repo.findByMail(mail);
     }

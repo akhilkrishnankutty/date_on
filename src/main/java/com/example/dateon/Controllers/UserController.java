@@ -42,6 +42,18 @@ public class UserController {
         return userServices.createNewUser(u1);
     }
 
+    @GetMapping("/check-exists")
+    public ResponseEntity<?> checkExists(
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) Double phone) {
+        double phoneVal = (phone != null) ? phone : 0;
+        String error = userServices.checkUserExists(email, phoneVal);
+        if (error != null) {
+            return ResponseEntity.status(409).body(error);
+        }
+        return ResponseEntity.ok("Available");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Users user) {
         org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(
