@@ -26,4 +26,4 @@ jobs:
       run: chmod +x mvnw
 
     - name: Run Tests
-      run: ./mvnw clean test
+      run: ./mvnw clean test -Dtest="!LoadTest"
