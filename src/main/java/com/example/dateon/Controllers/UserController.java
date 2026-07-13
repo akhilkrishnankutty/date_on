@@ -38,8 +38,15 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public Users createNewUser(@RequestBody Users u1) {
-        return userServices.createNewUser(u1);
+    public Users createNewUser(@RequestBody com.example.dateon.Models.UserCreateDTO u1) {
+        Users newUser = new Users();
+        newUser.setName(u1.getName());
+        newUser.setMail(u1.getMail());
+        newUser.setNumber(u1.getNumber());
+        newUser.setGender(u1.getGender());
+        newUser.setDob(u1.getDob());
+        newUser.setPassword(u1.getPassword());
+        return userServices.createNewUser(newUser);
     }
 
     @GetMapping("/check-exists")
@@ -55,7 +62,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Users user) {
+    public ResponseEntity<?> login(@RequestBody com.example.dateon.Models.UserLoginDTO user) {
         org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(
                 new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(user.getMail(),
                         user.getPassword()));
