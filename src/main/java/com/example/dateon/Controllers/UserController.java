@@ -113,9 +113,8 @@ public class UserController {
             safeUser.setBio(user.getBio());
 
             String picUrl = user.getProfilePictureUrl();
-            if (picUrl != null && user.getMatchTime() != null) {
-                long days = java.time.temporal.ChronoUnit.DAYS.between(user.getMatchTime(), java.time.LocalDateTime.now());
-                if (days < 5 && picUrl.contains("/upload/")) {
+            if (picUrl != null && picUrl.contains("/upload/")) {
+                if (user.getMatchTime() == null || java.time.temporal.ChronoUnit.DAYS.between(user.getMatchTime(), java.time.LocalDateTime.now()) < 5) {
                     picUrl = picUrl.replace("/upload/", "/upload/e_blur:2000/");
                 }
             }
