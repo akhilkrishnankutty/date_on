@@ -111,7 +111,16 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            String picUrl = user.getProfilePictureUrl();
+            if (picUrl != null && user.getMatchTime() != null) {
+                long days = java.time.temporal.ChronoUnit.DAYS.between(user.getMatchTime(), java.time.LocalDateTime.now());
+                if (days < 5 && picUrl.contains("/upload/")) {
+                    picUrl = picUrl.replace("/upload/", "/upload/e_blur:2000/");
+                }
+            }
+            safeUser.setProfilePictureUrl(picUrl);
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
