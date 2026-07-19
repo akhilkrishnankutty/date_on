@@ -111,7 +111,12 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            // Security Fix: Prevent IDOR by returning a generic blurred placeholder instead of relying on frontend transformation params.
+            if (user.getMatchTime() != null && user.getMatchTime().isAfter(java.time.LocalDateTime.now().minusDays(5))) {
+                safeUser.setProfilePictureUrl("https://res.cloudinary.com/demo/image/upload/v1/blurred_placeholder.jpg");
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
