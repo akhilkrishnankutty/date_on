@@ -111,7 +111,14 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            // Fix IDOR: Return generic placeholder if match is less than 5 days old
+            if (user.getMatchTime() != null && java.time.temporal.ChronoUnit.DAYS.between(user.getMatchTime(), java.time.LocalDateTime.now()) < 5) {
+                safeUser.setProfilePictureUrl("https://res.cloudinary.com/demo/image/upload/e_blur:2000/placeholder.jpg");
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
