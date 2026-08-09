@@ -112,7 +112,7 @@ public class UserController {
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
 
-            if (currentUser.getId() == user.getId() || (user.getMatchTime() != null && java.time.temporal.ChronoUnit.DAYS.between(user.getMatchTime(), java.time.LocalDateTime.now()) >= 5)) {
+            if (currentUser.getId() == user.getId() || (user.getMatchTime() != null && java.time.temporal.ChronoUnit.DAYS.between(user.getMatchTime(), java.time.LocalDateTime.now(java.time.ZoneId.of("UTC"))) >= 5)) {
                 safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
             } else {
                 safeUser.setProfilePictureUrl("https://res.cloudinary.com/dquj7szs3/image/upload/v1710000000/blurred_placeholder.jpg");
