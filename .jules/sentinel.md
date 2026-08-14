@@ -2,3 +2,8 @@
 **Vulnerability:** The `/user/{id}` endpoint allowed unauthenticated arbitrary data exposure and IDOR. It relied on an optional `requestorId` parameter instead of the Spring Security `Authentication` context, meaning any authenticated user could fetch the full profile (including email, password hash, etc.) of any other user simply by calling the endpoint.
 **Learning:** Never trust client-provided parameters (like `requestorId`) for authorization checks. Spring Security's context must be used to identify the current user. Also, endpoints returning user entities should be careful not to serialize sensitive fields unless explicitly required for the current user.
 **Prevention:** Use `org.springframework.security.core.Authentication` injected into controller methods to identify the user making the request. Apply role/ownership checks server-side. Map Entities to DTOs to prevent accidental exposure of fields like `password` or `mail`.
+
+## 2024-05-23 - [CRITICAL] Prevented IDOR for Profile Picture via matchTime
+**Vulnerability:** Users could see their match's original profile picture immediately by intercepting the API response, bypassing the intended 5-day blurring mechanic.
+**Learning:** Backend must enforce masking rules, like returning a generic blurred placeholder, instead of trusting the frontend to apply a blur filter to the raw URL.
+**Prevention:** Ensure conditional logic for sensitive data exposure fails closed (denies access by default) and is enforced strictly server-side.
