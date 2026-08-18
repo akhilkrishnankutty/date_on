@@ -111,7 +111,14 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            // Backend-only blurring to prevent IDOR before 5-day period
+            if (user.getMatchTime() == null || java.time.LocalDateTime.now().isBefore(user.getMatchTime().plusDays(5))) {
+                safeUser.setProfilePictureUrl("https://example.com/placeholder-blurred.jpg");
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
