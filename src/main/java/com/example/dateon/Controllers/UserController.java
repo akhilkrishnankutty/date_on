@@ -111,7 +111,13 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            if (user.getMatchTime() != null && java.time.LocalDateTime.now().isAfter(user.getMatchTime().plusDays(5))) {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            } else {
+                safeUser.setProfilePictureUrl("https://res.cloudinary.com/dquj7szs3/image/upload/v1234567890/blurred_placeholder.jpg");
+            }
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
