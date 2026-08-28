@@ -111,7 +111,15 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            // IDOR Prevention: Do not send the real unblurred image URL if match is less than 5 days old (or matchTime is null)
+            java.time.LocalDateTime matchTime = user.getMatchTime();
+            if (matchTime != null && java.time.LocalDateTime.now().minusDays(5).isAfter(matchTime)) {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            } else {
+                safeUser.setProfilePictureUrl("https://res.cloudinary.com/dateon/image/upload/v1/placeholders/blurred_profile.jpg");
+            }
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
