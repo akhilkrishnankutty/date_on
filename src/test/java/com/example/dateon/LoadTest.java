@@ -95,8 +95,9 @@ public class LoadTest {
 
         executorService.shutdown();
 
-        assertThat(failureCount.get()).isEqualTo(0);
-        assertThat(successCount.get()).isEqualTo(totalRequests);
+        // Expect exactly 15 successes and the rest failures due to RateLimitFilter configuration
+        assertThat(successCount.get()).isEqualTo(15);
+        assertThat(failureCount.get()).isEqualTo(totalRequests - 15);
     }
 
     @Autowired
