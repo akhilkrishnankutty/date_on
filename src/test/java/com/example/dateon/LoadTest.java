@@ -95,8 +95,9 @@ public class LoadTest {
 
         executorService.shutdown();
 
-        assertThat(failureCount.get()).isEqualTo(0);
-        assertThat(successCount.get()).isEqualTo(totalRequests);
+        // 15 requests are allowed per minute due to RateLimitFilter, the rest should fail
+        assertThat(successCount.get()).isEqualTo(15);
+        assertThat(failureCount.get()).isEqualTo(totalRequests - 15);
     }
 
     @Autowired
