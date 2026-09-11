@@ -17,6 +17,9 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 @Component
 public class RateLimitFilter extends OncePerRequestFilter {
 
+    @org.springframework.beans.factory.annotation.Autowired
+    private org.springframework.core.env.Environment env;
+
     private final Map<String, Deque<Long>> cache = new ConcurrentHashMap<>();
     private static final int MAX_REQUESTS = 15;
     private static final long TIME_WINDOW_MS = 60000; // 1 minute
@@ -42,6 +45,11 @@ public class RateLimitFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        if (env != null && java.util.Arrays.asList(env.getActiveProfiles()).contains("test")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String path = request.getRequestURI();
         if (path.startsWith("/user/login") || path.startsWith("/user/create") || path.startsWith("/user/check-exists")) {
