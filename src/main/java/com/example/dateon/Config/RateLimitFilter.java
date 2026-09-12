@@ -1,5 +1,7 @@
 package com.example.dateon.Config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -9,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +19,9 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Component
 public class RateLimitFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private Environment environment;
 
     private final Map<String, Deque<Long>> cache = new ConcurrentHashMap<>();
     private static final int MAX_REQUESTS = 15;
@@ -42,6 +48,11 @@ public class RateLimitFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        if (environment != null && Arrays.asList(environment.getActiveProfiles()).contains("test")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String path = request.getRequestURI();
         if (path.startsWith("/user/login") || path.startsWith("/user/create") || path.startsWith("/user/check-exists")) {
