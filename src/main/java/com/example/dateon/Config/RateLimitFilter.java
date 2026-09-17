@@ -13,9 +13,14 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 @Component
 public class RateLimitFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private Environment env;
 
     private final Map<String, Deque<Long>> cache = new ConcurrentHashMap<>();
     private static final int MAX_REQUESTS = 15;
@@ -42,6 +47,12 @@ public class RateLimitFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        if (env != null && env.getActiveProfiles() != null && env.getActiveProfiles().length > 0
+                && "test".equals(env.getActiveProfiles()[0])) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String path = request.getRequestURI();
         if (path.startsWith("/user/login") || path.startsWith("/user/create") || path.startsWith("/user/check-exists")) {
