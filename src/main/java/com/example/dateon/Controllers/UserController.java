@@ -18,6 +18,10 @@ import org.springframework.security.core.Authentication;
 @RestController
 @RequestMapping("user")
 public class UserController {
+
+    @org.springframework.beans.factory.annotation.Value("${cloudinary.placeholder_url}")
+    private String placeholderUrl;
+
     @Autowired
     UserServices userServices;
 
@@ -111,7 +115,13 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            if (user.getMatchTime() != null && java.time.temporal.ChronoUnit.DAYS.between(user.getMatchTime(), java.time.LocalDateTime.now()) >= 5) {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            } else {
+                safeUser.setProfilePictureUrl(placeholderUrl);
+            }
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
