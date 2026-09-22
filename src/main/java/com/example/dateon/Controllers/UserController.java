@@ -118,7 +118,8 @@ public class UserController {
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
 
-            if (user.getMatchTime() != null && ChronoUnit.DAYS.between(user.getMatchTime(), LocalDateTime.now()) >= 5) {
+            if (currentUser.getMatchTime() != null &&
+                    ChronoUnit.DAYS.between(currentUser.getMatchTime(), LocalDateTime.now()) >= 5) {
                 safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
             } else {
                 safeUser.setProfilePictureUrl(placeholderUrl);
