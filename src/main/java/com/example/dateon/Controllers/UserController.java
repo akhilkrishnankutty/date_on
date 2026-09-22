@@ -1,5 +1,8 @@
 package com.example.dateon.Controllers;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import com.example.dateon.Models.Users;
 import com.example.dateon.Service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ import org.springframework.security.core.Authentication;
 @RestController
 @RequestMapping("user")
 public class UserController {
+    @org.springframework.beans.factory.annotation.Value("${cloudinary.placeholder_url}")
+    private String placeholderUrl;
+
     @Autowired
     UserServices userServices;
 
@@ -111,7 +117,12 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            if (user.getMatchTime() != null && ChronoUnit.DAYS.between(user.getMatchTime(), LocalDateTime.now()) >= 5) {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            } else {
+                safeUser.setProfilePictureUrl(placeholderUrl);
+            }
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
