@@ -3,6 +3,9 @@ package com.example.dateon.Controllers;
 import com.example.dateon.Models.Users;
 import com.example.dateon.Service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,9 @@ import org.springframework.security.core.Authentication;
 @RestController
 @RequestMapping("user")
 public class UserController {
+    @Value("${cloudinary.placeholder_url}")
+    private String blurredPlaceholderUrl;
+
     @Autowired
     UserServices userServices;
 
@@ -111,7 +117,12 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            // Security Constraint: Prevent IDOR by returning a blurred placeholder if the match is < 5 days old
+            if (user.getMatchTime() == null || ChronoUnit.DAYS.between(user.getMatchTime(), LocalDateTime.now()) < 5) {
+                safeUser.setProfilePictureUrl(blurredPlaceholderUrl);
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
