@@ -18,6 +18,9 @@ import org.springframework.security.core.Authentication;
 @RestController
 @RequestMapping("user")
 public class UserController {
+    @org.springframework.beans.factory.annotation.Value("${cloudinary.placeholder_url}")
+    private String placeholderUrl;
+
     @Autowired
     UserServices userServices;
 
@@ -111,7 +114,14 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+            // IDOR Prevention: Blur profile picture for 5 days after match
+            if (user.getMatchTime() == null || java.time.LocalDateTime.now().minusDays(5).isBefore(user.getMatchTime())) {
+                safeUser.setProfilePictureUrl(placeholderUrl);
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
+
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
