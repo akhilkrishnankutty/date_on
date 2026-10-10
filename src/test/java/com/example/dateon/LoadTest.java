@@ -1,6 +1,7 @@
 package com.example.dateon;
 
 import com.example.dateon.Models.Users;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,6 +42,7 @@ public class LoadTest {
     private com.example.dateon.Service.MatchmakingService matchmakingService;
 
     @Test
+    @Disabled("Heavy stress test (50 threads / 500 requests) - execute in dedicated load testing environment")
     public void testConcurrentUsersLoad() throws InterruptedException, ExecutionException {
         int numberOfThreads = 50;
         int requestsPerThread = 10;
