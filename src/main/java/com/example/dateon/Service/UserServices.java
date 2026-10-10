@@ -1,6 +1,5 @@
 package com.example.dateon.Service;
 
-import com.example.dateon.Kafka.KafkaProducer;
 import com.example.dateon.Models.UserForgotPass;
 import com.example.dateon.Models.Users;
 import com.example.dateon.Repo.UserForgotPassRepo;
@@ -33,7 +32,7 @@ public class UserServices {
     }
 
     @Autowired
-    KafkaProducer kafkaProducer;
+    private MatchmakingService matchmakingService;
     @Autowired
     ChatMessageRepository chatMessageRepository;
     @Autowired
@@ -81,7 +80,7 @@ public class UserServices {
         user.setStatus("AI_PROCESSING");
         user.setLock(false); // Unlock user so they can be found by other users in matching queue
         repo.save(user);
-        kafkaProducer.available(user);
+        matchmakingService.processUserMatchmakingAsync(user.getId());
         broadcastUserUpdate(user.getId());
         return user;
     }
@@ -128,7 +127,7 @@ public class UserServices {
         broadcastUserUpdate(matchedUser.getId());
 
         // Trigger matching ONLY for target user
-        kafkaProducer.available(matchedUser);
+        matchmakingService.processUserMatchmakingAsync(matchedUser.getId());
 
         return currentUser;
     }
@@ -140,7 +139,7 @@ public class UserServices {
         user.setLock(false);
         repo.save(user);
         broadcastUserUpdate(user.getId());
-        kafkaProducer.available(user);
+        matchmakingService.processUserMatchmakingAsync(user.getId());
     }
 
     private void addToPastMatches(Users user, int matchedUserId) {
@@ -203,27 +202,41 @@ public class UserServices {
         Users user = repo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
         boolean isPaused = !user.isPaused();
-        user.setPaused(isPaused);
 
         if (isPaused) {
             // Pausing: Remove from matching pool
-            user.setLock(true); // Ensure they are locked out of matching
             if ("MATCHED".equals(user.getStatus()) && user.getLoid() != 0) {
-                // Unmatch if currently matched (optional, business logic choice)
-                // For now, let's keep them matched but paused?
-                // Or better: Force unmatch so they don't block the other person.
+                // Force unmatch so the other person is released immediately
                 try {
-                    unmatchUser(userId);
+                    user = unmatchUser(userId);
                 } catch (Exception e) {
                     // Ignore if unmatch fails (e.g. race condition)
                 }
             }
+            user.setPaused(true);
+            user.setLock(true); // Ensure they are locked out of matching
             user.setStatus("PAUSED");
         } else {
-            // Unpausing: Re-enter matching pool
-            user.setStatus("MATCH_FINDING");
-            user.setLock(false);
-            kafkaProducer.available(user); // Trigger matching immediately
+            user.setPaused(false);
+            // Unpausing: Check if user has an active cooldown period
+            boolean hasActiveCooldown = user.getMatchCooldownUntil() != null && 
+                                        user.getMatchCooldownUntil().isAfter(java.time.LocalDateTime.now());
+            if (hasActiveCooldown) {
+                // Return to cooldown state; do NOT trigger matchmaking
+                user.setStatus("COOLDOWN");
+                user.setLock(true);
+            } else if (user.getMatchCooldownUntil() != null) {
+                // Cooldown has expired while they were paused
+                user.setMatchCooldownUntil(null);
+                user.setStatus("MATCH_FINDING");
+                user.setLock(false);
+                matchmakingService.processUserMatchmakingAsync(user.getId());
+            } else {
+                // Re-enter matching pool
+                user.setStatus("MATCH_FINDING");
+                user.setLock(false);
+                matchmakingService.processUserMatchmakingAsync(user.getId()); // Trigger matching immediately
+            }
         }
 
         repo.save(user);

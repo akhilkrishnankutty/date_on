@@ -41,7 +41,7 @@ public class EndpointIntegrationTests {
     private com.example.dateon.Service.CloudinaryService cloudinaryService;
 
     @MockBean
-    private com.example.dateon.Kafka.KafkaProducer kafkaProducer;
+    private com.example.dateon.Service.MatchmakingService matchmakingService;
 
     private Users createUser(String namePrefix) {
         Users dummyUser = new Users();

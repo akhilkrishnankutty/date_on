@@ -27,7 +27,7 @@ public class JwtService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 3000)) // 3 hours
+                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 90)) // 90 days
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -50,11 +50,15 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
@@ -71,7 +75,15 @@ public class JwtService {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        try {
+            Date exp = extractExpiration(token);
+            if (exp == null) return false;
+            // Allow a grace period of 90 days for existing tokens
+            long gracePeriodMillis = 1000L * 60 * 60 * 24 * 90;
+            return (exp.getTime() + gracePeriodMillis) < System.currentTimeMillis();
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     private Date extractExpiration(String token) {

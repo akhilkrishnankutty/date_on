@@ -47,6 +47,22 @@ public class AIService {
         return 0.0; // Default fallback
     }
 
+    public com.example.dateon.Dto.DetailedBreakdownResponseDTO getDetailedBreakdown(Users userA, Users userB) {
+        if (userA == null || userB == null) return null;
+        try {
+            String breakdownUrl = AI_service_URL.replace("/predict_compatibility", "/predict_detailed_breakdown");
+            com.example.dateon.Dto.PairRequestDTO request = new com.example.dateon.Dto.PairRequestDTO(
+                    mapUserToQuizAnswers(userA),
+                    mapUserToQuizAnswers(userB)
+            );
+            return restTemplate.postForObject(breakdownUrl, request, com.example.dateon.Dto.DetailedBreakdownResponseDTO.class);
+        } catch (Exception e) {
+            System.err.println("Error calling AI detailed breakdown: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private QuizAnswersDTO mapUserToQuizAnswers(Users user) {
         QuizAnswersDTO dto = new QuizAnswersDTO();
         List<com.example.dateon.Models.Question> questions = user.getQuestions();

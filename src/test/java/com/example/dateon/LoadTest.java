@@ -38,7 +38,7 @@ public class LoadTest {
     private com.example.dateon.Service.JwtService jwtService;
 
     @org.springframework.boot.test.mock.mockito.MockBean
-    private com.example.dateon.Kafka.KafkaProducer kafkaProducer;
+    private com.example.dateon.Service.MatchmakingService matchmakingService;
 
     @Test
     public void testConcurrentUsersLoad() throws InterruptedException, ExecutionException {

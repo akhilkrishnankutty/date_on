@@ -25,6 +25,8 @@ public class UserController {
     private org.springframework.security.authentication.AuthenticationManager authenticationManager;
     @Autowired
     private com.example.dateon.Service.JwtService jwtService;
+    @Autowired
+    private com.example.dateon.Service.AIService aiService;
 
     private ResponseEntity<?> checkAuthorization(int targetUserId, Authentication authentication) {
         if (authentication == null) {
@@ -126,9 +128,79 @@ public class UserController {
             safeUser.setLock(user.isLock());
             safeUser.setCustomQuestion(user.getCustomQuestion());
             safeUser.setAnswerToMatchQuestion(user.getAnswerToMatchQuestion());
+            safeUser.setCompatibilityScore(user.getCompatibilityScore());
+            safeUser.setQuestions(user.getQuestions());
             return ResponseEntity.ok(safeUser);
         }
         return ResponseEntity.status(403).body("Access denied");
+    }
+
+    @GetMapping("/{userId}/compatibility-breakdown")
+    public ResponseEntity<?> getCompatibilityBreakdown(
+            @org.springframework.web.bind.annotation.PathVariable int userId,
+            Authentication authentication) {
+        ResponseEntity<?> authError = checkAuthorization(userId, authentication);
+        if (authError != null) return authError;
+
+        Users currentUser = userServices.getUserById(userId);
+        if (currentUser == null) {
+            return ResponseEntity.status(404).body("User not found");
+        }
+
+        if (!"MATCHED".equals(currentUser.getStatus()) || currentUser.getLoid() <= 0) {
+            return ResponseEntity.status(400).body("User is not currently matched");
+        }
+
+        Users matchedUser = userServices.getUserById(currentUser.getLoid());
+        if (matchedUser == null) {
+            return ResponseEntity.status(404).body("Matched partner not found");
+        }
+
+        com.example.dateon.Dto.DetailedBreakdownResponseDTO breakdown = aiService.getDetailedBreakdown(currentUser, matchedUser);
+
+        int overallInt;
+        int valuesInt;
+        int lifestyleInt;
+        int commInt;
+        String valSub;
+        String lifeSub;
+        String commSub;
+
+        if (breakdown != null) {
+            overallInt = (int) Math.round(breakdown.getCompatibility_score() * 100);
+            valuesInt = (int) Math.round(breakdown.getValues_score() * 100);
+            lifestyleInt = (int) Math.round(breakdown.getLifestyle_score() * 100);
+            commInt = (int) Math.round(breakdown.getCommunication_score() * 100);
+            valSub = breakdown.getValues_subtitle();
+            lifeSub = breakdown.getLifestyle_subtitle();
+            commSub = breakdown.getCommunication_subtitle();
+        } else {
+            double baseScore = currentUser.getCompatibilityScore();
+            if (baseScore <= 0 && matchedUser.getCompatibilityScore() > 0) baseScore = matchedUser.getCompatibilityScore();
+            if (baseScore > 1) baseScore = baseScore / 100.0;
+            if (baseScore <= 0) baseScore = 0.85;
+
+            overallInt = (int) Math.round(baseScore * 100);
+            valuesInt = Math.min(99, Math.max(75, overallInt + 3));
+            lifestyleInt = Math.min(99, Math.max(70, overallInt - 3));
+            commInt = Math.min(99, Math.max(72, overallInt));
+            valSub = "High alignment on loyalty, honesty & future goals";
+            lifeSub = "Balanced rhythm of quiet moments & shared activities";
+            commSub = "Mutual appreciation for thoughtful, authentic talk";
+        }
+
+        com.example.dateon.Dto.CompatibilityBreakdownDTO response = new com.example.dateon.Dto.CompatibilityBreakdownDTO(
+                overallInt,
+                valuesInt,
+                lifestyleInt,
+                commInt,
+                valSub,
+                lifeSub,
+                commSub,
+                matchedUser.getName()
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{userId}/unmatch")
@@ -199,8 +271,11 @@ public class UserController {
 
         try {
             boolean isPaused = userServices.toggleAccountPause(userId);
-            java.util.Map<String, Boolean> response = new java.util.HashMap<>();
+            Users user = userServices.getUserById(userId);
+            java.util.Map<String, Object> response = new java.util.HashMap<>();
             response.put("isPaused", isPaused);
+            response.put("status", user.getStatus());
+            response.put("lock", user.isLock());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());

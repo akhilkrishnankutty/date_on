@@ -1,7 +1,5 @@
 package com.example.dateon.Service;
 
-import com.example.dateon.Kafka.KafkaProducer;
-import com.example.dateon.Models.KafkaUserInput;
 import com.example.dateon.Models.Users;
 import com.example.dateon.Repo.UserRepo;
 import jakarta.transaction.Transactional;
@@ -20,7 +18,7 @@ public class Matcher {
     private UserRepo userRepo;
 
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private AIService aiService;
 
     @Autowired
     private org.springframework.messaging.simp.SimpMessagingTemplate messagingTemplate;
@@ -31,16 +29,12 @@ public class Matcher {
         }
     }
 
-
     @Transactional
-    public void processMatch(KafkaUserInput input) {
-
-        if (!input.isLock()) {
+    public void processMatch(int userId) {
+        Users currentUser = userRepo.findById(userId).orElse(null);
+        if (currentUser == null) {
             return;
         }
-
-        Users currentUser = userRepo.findById(input.getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
         // If already matched, don't process again
         if ("MATCHED".equals(currentUser.getStatus())) {
@@ -52,15 +46,19 @@ public class Matcher {
         if (currentUser.isPaused()) {
             System.out.println("User " + currentUser.getId() + " is paused. Skipping match process.");
             return;
-        } else {
-            System.out.println(
-                    "Processing match for User " + currentUser.getId() + " (Paused: " + currentUser.isPaused() + ")");
+        }
+
+        // If locked or in cooldown, don't process match
+        if (currentUser.isLock() || "COOLDOWN".equals(currentUser.getStatus())) {
+            System.out.println("User " + currentUser.getId() + " is locked or in cooldown. Skipping match process.");
+            return;
         }
 
         // Parse past matches into a list of excluded IDs
         List<Integer> excludedIds = getPastMatchIds(currentUser);
-        // Also exclude the current user from matches
-        excludedIds.add(currentUser.getId());
+        if (!excludedIds.contains(currentUser.getId())) {
+            excludedIds.add(currentUser.getId());
+        }
 
         List<Users> matches = userRepo.findNearestCompatibleUsers(
                 currentUser.getGender(),
@@ -74,8 +72,6 @@ public class Matcher {
             currentUser.setStatus("WAITING_FOR_MATCH");
             userRepo.save(currentUser);
             broadcastUserUpdate(currentUser.getId());
-
-            // Wait for the next cron job cycle to retry
             return;
         }
 
@@ -85,14 +81,12 @@ public class Matcher {
         List<Integer> matchedUserPastMatches = getPastMatchIds(matchedUser);
         if (matchedUserPastMatches.contains(currentUser.getId())) {
             System.out.println("Matched user already had current user in past matches. Skipping...");
-            // Re-queue for retry
             currentUser.setStatus("WAITING_FOR_MATCH");
             userRepo.save(currentUser);
-            // Wait for the next cron job cycle to retry
             return;
         }
 
-        System.out.println("Matched with " + matchedUser.getName());
+        System.out.println("Matched " + currentUser.getName() + " with " + matchedUser.getName());
 
         // Lock both users atomically
         currentUser.setLoid(matchedUser.getId());
@@ -104,12 +98,22 @@ public class Matcher {
         // Update Status and Time
         currentUser.setStatus("MATCHED");
         matchedUser.setStatus("MATCHED");
-        currentUser.setMatchTime(java.time.LocalDateTime.now());
-        currentUser.setMatchTime(java.time.LocalDateTime.now());
-        matchedUser.setMatchTime(java.time.LocalDateTime.now());
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        currentUser.setMatchTime(now);
+        matchedUser.setMatchTime(now);
 
         // Sync compatibility scores (use the valid one if one is 0)
         double finalScore = Math.max(currentUser.getCompatibilityScore(), matchedUser.getCompatibilityScore());
+        
+        // If neither user had a pre-computed score, evaluate compatibility dynamically with AI
+        if (finalScore <= 0 && aiService != null) {
+            try {
+                finalScore = aiService.getCompatibilityScore(currentUser, List.of(matchedUser));
+            } catch (Exception e) {
+                System.err.println("Error evaluating AI compatibility in Matcher: " + e.getMessage());
+            }
+        }
+
         String aiMatched = (finalScore > 0) ? "Y" : "N";
         currentUser.setAiMatch(aiMatched);
         matchedUser.setAiMatch(aiMatched);
@@ -139,16 +143,9 @@ public class Matcher {
         if (waitingUsers.isEmpty()) {
             return;
         }
-        System.out.println("Cron Job: Re-queuing " + waitingUsers.size() + " users for matching retry");
+        System.out.println("Cron Job: Re-evaluating " + waitingUsers.size() + " waiting users for matching retry");
         for (Users refreshedUser : waitingUsers) {
-            KafkaUserInput input = new KafkaUserInput();
-            input.setId(refreshedUser.getId());
-            input.setScore(refreshedUser.getCompatibilityScore());
-            input.setGender(refreshedUser.getGender());
-            input.setLock(true); // Ensure lock is set to true for processing
-            
-            // Send directly to 'compatable' topic, bypassing 'Free_user' which resets status
-            kafkaProducer.checker(input);
+            processMatch(refreshedUser.getId());
         }
     }
 
