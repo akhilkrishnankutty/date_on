@@ -47,7 +47,7 @@ public class Users {
     @Column(columnDefinition = "TEXT")
     private String profilePictureUrl;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

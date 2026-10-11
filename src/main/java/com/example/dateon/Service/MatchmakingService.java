@@ -2,6 +2,7 @@ package com.example.dateon.Service;
 
 import com.example.dateon.Models.Users;
 import com.example.dateon.Repo.UserRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,7 @@ public class MatchmakingService {
      * Replaces the Kafka Free_user -> AI -> compatable pipeline with in-process async.
      */
     @Async("matchmakingExecutor")
+    @Transactional
     public void processUserMatchmakingAsync(int userId) {
         try {
             Users user = userRepo.findById(userId).orElse(null);

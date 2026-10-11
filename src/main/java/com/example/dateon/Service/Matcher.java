@@ -138,6 +138,7 @@ public class Matcher {
      * Cron job to process all users waiting for a match every 30 seconds
      */
     @org.springframework.scheduling.annotation.Scheduled(fixedRate = 30000)
+    @Transactional
     public void processWaitingUsers() {
         List<Users> waitingUsers = userRepo.findByStatusAndIsPausedFalse("WAITING_FOR_MATCH");
         if (waitingUsers.isEmpty()) {
