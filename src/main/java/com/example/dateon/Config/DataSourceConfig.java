@@ -65,6 +65,13 @@ public class DataSourceConfig {
             password = System.getenv("RENDER_DB_PASSWORD");
         }
 
+        String maskedUrl = url != null ? url.replaceAll(":[^:@/]+@", ":***@") : "NULL";
+        System.out.println("=================================================");
+        System.out.println(">>> DATEON DATABASE CONNECTION INFO:");
+        System.out.println(">>> JDBC URL : " + maskedUrl);
+        System.out.println(">>> USERNAME : " + username);
+        System.out.println("=================================================");
+
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
         config.setUsername(username);
