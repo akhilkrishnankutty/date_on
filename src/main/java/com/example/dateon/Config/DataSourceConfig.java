@@ -55,6 +55,16 @@ public class DataSourceConfig {
             }
         }
 
+        if ((username == null || username.isBlank()) && System.getenv("DB_USER") != null) {
+            username = System.getenv("DB_USER");
+        }
+        if ((password == null || password.isBlank()) && System.getenv("DB_PASS") != null) {
+            password = System.getenv("DB_PASS");
+        }
+        if ((password == null || password.isBlank()) && System.getenv("RENDER_DB_PASSWORD") != null) {
+            password = System.getenv("RENDER_DB_PASSWORD");
+        }
+
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(url);
         config.setUsername(username);
