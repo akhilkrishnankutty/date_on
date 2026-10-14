@@ -1,0 +1,24 @@
+name: Keep Render Free Tier Alive
+
+on:
+  schedule:
+    # Run every 10 minutes to prevent Render's 15-minute inactivity spin-down
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    name: Ping Render Keep-Alive Endpoint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Keep-Alive Endpoint
+        run: |
+          echo "Sending keep-alive request to Render..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://dateon-app-latest.onrender.com/keep-alive)
+          echo "Render response status code: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 401 ]; then
+            echo "Successfully kept Render backend awake!"
+          else
+            echo "Service responded with status $HTTP_STATUS"
+          fi
