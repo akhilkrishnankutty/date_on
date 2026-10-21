@@ -28,6 +28,9 @@ public class UserController {
     @Autowired
     private com.example.dateon.Service.AIService aiService;
 
+    @org.springframework.beans.factory.annotation.Value("${cloudinary.placeholder_url}")
+    private String placeholderUrl;
+
     private ResponseEntity<?> checkAuthorization(int targetUserId, Authentication authentication) {
         if (authentication == null) {
             return ResponseEntity.status(401).body("Unauthorized");
@@ -113,7 +116,12 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            java.time.LocalDateTime matchTime = user.getMatchTime();
+            if (matchTime == null || matchTime.plusDays(5).isAfter(java.time.LocalDateTime.now())) {
+                safeUser.setProfilePictureUrl(placeholderUrl);
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
