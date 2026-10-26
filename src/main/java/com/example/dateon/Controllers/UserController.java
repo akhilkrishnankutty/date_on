@@ -14,12 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
     @Autowired
     UserServices userServices;
+
+    @Value("${cloudinary.placeholder_url}")
+    private String placeholderUrl;
 
     @Autowired
     private org.springframework.security.authentication.AuthenticationManager authenticationManager;
@@ -113,7 +117,11 @@ public class UserController {
             safeUser.setId(user.getId());
             safeUser.setName(user.getName());
             safeUser.setBio(user.getBio());
-            safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            if (user.getMatchTime() == null || java.time.LocalDateTime.now().isBefore(user.getMatchTime().plusDays(5))) {
+                safeUser.setProfilePictureUrl(placeholderUrl);
+            } else {
+                safeUser.setProfilePictureUrl(user.getProfilePictureUrl());
+            }
             safeUser.setAge(user.getAge());
             safeUser.setGender(user.getGender());
             safeUser.setWorkplace(user.getWorkplace());
